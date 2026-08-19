@@ -147,6 +147,7 @@ class Task(models.Model):
 | Sprint 0.0 | Planning & Architecture | PRD, Technical Breakdown, Sprint Roadmap |
 | Sprint 1.0 | Core MVP FullStack App | Feature 1: Django REST Framework Task API backend<br>Feature 2: React Kanban Board with Native D&D<br>Feature 3: Light/Dark Theme Switcher & UI Polish |
 | Sprint 1.1 | Documentation, PWA & Branding | Feature 1: Project documentation (AGENTS.md, CLAUDE.md, README.md)<br>Feature 2: Progressive Web App (PWA) & Service Worker<br>Feature 3: Favicon update & Brand asset integration |
+| Sprint 1.2 | Formatter & Tooling Setup | Feature 1: Retain AGENTS.md and CLAUDE.md in project root<br>Feature 2: Biome-JS linter/formatter config for React client<br>Feature 3: Python pyproject.toml formatter config for Django backend |
 
 ### Implementation Strategy
 - Features are designed to be independent and modular.
