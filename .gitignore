@@ -1,0 +1,21 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+*.sqlite3-journal
+local_settings.py
+db.sqlite3
+
+# Node / React
+node_modules/
+dist/
+dist-ssr/
+*.local
+.pnpm-debug.log*
+
+# IDE & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
