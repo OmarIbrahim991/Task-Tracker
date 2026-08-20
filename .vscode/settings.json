@@ -1,0 +1,22 @@
+{
+	"editor.formatOnSave": true,
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.defaultFormatter": "biomejs.biome",
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.insertSpaces": true
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
