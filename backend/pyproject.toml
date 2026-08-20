@@ -2,11 +2,12 @@
 line-length = 160
 target-version = "py310"
 
+
 [tool.ruff.format]
 indent-style = "space"
 quote-style = "single"
 skip-magic-trailing-comma = false
-line-ending = "lf"
+line-ending = "cr-lf"
 
 [tool.black]
 line-length = 160
