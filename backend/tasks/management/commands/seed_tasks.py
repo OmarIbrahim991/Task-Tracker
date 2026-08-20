@@ -47,16 +47,14 @@ SAMPLE_TASKS = [
     },
 ]
 
+
 class Command(BaseCommand):
     help = 'Seeds initial sample tasks into SQLite database'
 
     def handle(self, *args, **kwargs):
         count = 0
         for task_data in SAMPLE_TASKS:
-            task, created = Task.objects.get_or_create(
-                title=task_data['title'],
-                defaults=task_data
-            )
+            task, created = Task.objects.get_or_create(title=task_data['title'], defaults=task_data)
             if created:
                 count += 1
         self.stdout.write(self.style.SUCCESS(f'Successfully seeded {count} sample tasks.'))
