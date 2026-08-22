@@ -2,6 +2,10 @@
 line-length = 160
 target-version = "py310"
 
+[tool.ruff.lint]
+# Generated Django migration metadata uses mutable class attributes by design.
+per-file-ignores = {"tasks/migrations/*.py" = ["RUF012"]}
+
 
 [tool.ruff.format]
 indent-style = "space"
