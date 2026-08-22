@@ -73,6 +73,8 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }
 
 				<select
 					className="status-select"
+					id={`task-status-${task.id}`}
+					name="status"
 					value={task.status}
 					onChange={(e) => onStatusChange(task.id, e.target.value)}
 					onClick={(e) => e.stopPropagation()}
