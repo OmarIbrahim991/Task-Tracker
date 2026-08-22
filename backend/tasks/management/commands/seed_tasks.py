@@ -4,58 +4,58 @@ from django.core.management.base import BaseCommand
 from tasks.models import Task
 
 SAMPLE_TASKS = [
-    {
-        'title': 'Design Kanban System System System',
-        'description': 'Define column stages, drag and drop event listeners, and CSS custom property theme tokens.',
-        'status': 'DONE',
-        'priority': 'HIGH',
-        'assignee': 'Admin',
-    },
-    {
-        'title': 'Implement Django REST Framework API',
-        'description': 'Build Task model, serializers, viewsets, and enable CORS support for local React client.',
-        'status': 'IN_PROGRESS',
-        'priority': 'HIGH',
-        'assignee': 'Admin',
-    },
-    {
-        'title': 'Native HTML5 Drag and Drop',
-        'description': 'Implement pure HTML5 drag handlers (onDragStart, onDragOver, onDrop) without 3rd party libraries.',
-        'status': 'IN_PROGRESS',
-        'priority': 'MEDIUM',
-        'assignee': 'Admin',
-    },
-    {
-        'title': 'Light & Dark Mode Switcher',
-        'description': 'Add persistent theme toggle supporting prefers-color-scheme and localStorage state.',
-        'status': 'TODO',
-        'priority': 'MEDIUM',
-        'assignee': 'Admin',
-    },
-    {
-        'title': 'Task Modal & Form Validation',
-        'description': 'Create reusable modal dialog for creating and editing task title, description, priority, and status.',
-        'status': 'TODO',
-        'priority': 'LOW',
-        'assignee': 'Admin',
-    },
-    {
-        'title': 'Review Responsive Layout',
-        'description': 'Ensure Kanban columns scale cleanly on desktop and tablet screens.',
-        'status': 'REVIEW',
-        'priority': 'LOW',
-        'assignee': 'Admin',
-    },
+	{
+		"title": "Design Kanban System System System",
+		"description": "Define column stages, drag and drop event listeners, and CSS custom property theme tokens.",
+		"status": "DONE",
+		"priority": "HIGH",
+		"assignee": "Admin",
+	},
+	{
+		"title": "Implement Django REST Framework API",
+		"description": "Build Task model, serializers, viewsets, and enable CORS support for local React client.",
+		"status": "IN_PROGRESS",
+		"priority": "HIGH",
+		"assignee": "Admin",
+	},
+	{
+		"title": "Native HTML5 Drag and Drop",
+		"description": "Implement pure HTML5 drag handlers (onDragStart, onDragOver, onDrop) without 3rd party libraries.",
+		"status": "IN_PROGRESS",
+		"priority": "MEDIUM",
+		"assignee": "Admin",
+	},
+	{
+		"title": "Light & Dark Mode Switcher",
+		"description": "Add persistent theme toggle supporting prefers-color-scheme and localStorage state.",
+		"status": "TODO",
+		"priority": "MEDIUM",
+		"assignee": "Admin",
+	},
+	{
+		"title": "Task Modal & Form Validation",
+		"description": "Create reusable modal dialog for creating and editing task title, description, priority, and status.",
+		"status": "TODO",
+		"priority": "LOW",
+		"assignee": "Admin",
+	},
+	{
+		"title": "Review Responsive Layout",
+		"description": "Ensure Kanban columns scale cleanly on desktop and tablet screens.",
+		"status": "REVIEW",
+		"priority": "LOW",
+		"assignee": "Admin",
+	},
 ]
 
 
 class Command(BaseCommand):
-    help = 'Seeds initial sample tasks into SQLite database'
+	help = "Seeds initial sample tasks into SQLite database"
 
-    def handle(self, *args, **kwargs):
-        count = 0
-        for task_data in SAMPLE_TASKS:
-            _task, created = Task.objects.get_or_create(title=task_data['title'], defaults=task_data)
-            if created:
-                count += 1
-        self.stdout.write(self.style.SUCCESS(f'Successfully seeded {count} sample tasks.'))
+	def handle(self, *args, **kwargs):
+		count = 0
+		for task_data in SAMPLE_TASKS:
+			_task, created = Task.objects.get_or_create(title=task_data["title"], defaults=task_data)
+			if created:
+				count += 1
+		self.stdout.write(self.style.SUCCESS(f"Successfully seeded {count} sample tasks."))

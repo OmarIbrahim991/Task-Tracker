@@ -8,8 +8,8 @@ per-file-ignores = {"tasks/migrations/*.py" = ["RUF012"]}
 
 
 [tool.ruff.format]
-indent-style = "space"
-quote-style = "single"
+indent-style = "tab"
+quote-style = "double"
 skip-magic-trailing-comma = false
 line-ending = "cr-lf"
 

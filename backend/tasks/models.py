@@ -5,29 +5,29 @@ from django.db import models
 
 
 class Task(models.Model):
-    STATUS_CHOICES: ClassVar[list[tuple[str, str]]] = [
-        ('TODO', 'To Do'),
-        ('IN_PROGRESS', 'In Progress'),
-        ('REVIEW', 'Review'),
-        ('DONE', 'Done'),
-    ]
+	STATUS_CHOICES: ClassVar[list[tuple[str, str]]] = [
+		("TODO", "To Do"),
+		("IN_PROGRESS", "In Progress"),
+		("REVIEW", "Review"),
+		("DONE", "Done"),
+	]
 
-    PRIORITY_CHOICES: ClassVar[list[tuple[str, str]]] = [
-        ('LOW', 'Low'),
-        ('MEDIUM', 'Medium'),
-        ('HIGH', 'High'),
-    ]
+	PRIORITY_CHOICES: ClassVar[list[tuple[str, str]]] = [
+		("LOW", "Low"),
+		("MEDIUM", "Medium"),
+		("HIGH", "High"),
+	]
 
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, default='')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='TODO')
-    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='MEDIUM')
-    assignee = models.CharField(max_length=100, default='Admin')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+	title = models.CharField(max_length=255)
+	description = models.TextField(blank=True, default="")
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="TODO")
+	priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="MEDIUM")
+	assignee = models.CharField(max_length=100, default="Admin")
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering: ClassVar[list[str]] = ['-created_at']
+	class Meta:
+		ordering: ClassVar[list[str]] = ["-created_at"]
 
-    def __str__(self):
-        return f'{self.title} ({self.get_status_display()})'
+	def __str__(self):
+		return f"{self.title} ({self.get_status_display()})"

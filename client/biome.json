@@ -33,7 +33,7 @@
 			"trailingCommas": "all",
 			"semicolons": "asNeeded",
 			"arrowParentheses": "always",
-			"quoteStyle": "single"
+			"quoteStyle": "double"
 		}
 	},
 	"json": {

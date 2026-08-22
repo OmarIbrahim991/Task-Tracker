@@ -7,15 +7,15 @@ from .serializers import TaskSerializer
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+	queryset = Task.objects.all()
+	serializer_class = TaskSerializer
 
-    def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        if not data.get('assignee'):
-            data['assignee'] = 'Admin'
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+	def create(self, request, *args, **kwargs):
+		data = request.data.copy()
+		if not data.get("assignee"):
+			data["assignee"] = "Admin"
+		serializer = self.get_serializer(data=data)
+		serializer.is_valid(raise_exception=True)
+		self.perform_create(serializer)
+		headers = self.get_success_headers(serializer.data)
+		return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

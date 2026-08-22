@@ -55,7 +55,7 @@ Task Tracker is a decoupled FullStack task management web application consisting
 - **Line Endings**: CRLF (`\r\n`).
 
 ### Backend (Python — `pyproject.toml`)
-- **Indentation**: 4 spaces per indent level (PEP 8 standard).
+- **Indentation**: Tabs (tab width: 4 spaces equivalent).
 - **Line Length**: 160 characters max (`line-length = 160`).
 - **Line Endings**: CRLF (`\r\n`).
 
@@ -72,8 +72,11 @@ Every new file must start with a header comment:
 ### Backend (`backend/`)
 ```bash
 python backend/manage.py migrate
+python backend/manage.py makemigrations
 python backend/manage.py seed_tasks
 python backend/manage.py runserver 8000
+python backend/manage.py shell
+ruff format backend/  # or: black backend/
 ```
 
 ### Frontend (`client/`)
@@ -81,6 +84,41 @@ python backend/manage.py runserver 8000
 cd client
 pnpm install
 pnpm dev
+pnpm build
+pnpm preview
 pnpm check      # Biome-JS linter & formatter check
 pnpm format     # Biome-JS format write
+```
+
+## 5. API Reference
+
+Base URL: `http://127.0.0.1:8000/api`
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/tasks/` | GET | List all tasks sorted by `created_at` descending |
+| `/api/tasks/` | POST | Create new task (title, description, status, priority, assignee) |
+| `/api/tasks/{id}/` | GET | Retrieve single task |
+| `/api/tasks/{id}/` | PATCH / PUT | Update task fields (e.g. status or priority) |
+| `/api/tasks/{id}/` | DELETE | Delete task |
+
+## 6. Project Structure
+
+```
+Task Tracker/
+├── backend/                  # Django REST Framework backend
+│   ├── core/                 # Django settings, wsgi, asgi, urls
+│   └── tasks/                # Tasks app (Model, Serializer, ViewSet, Seed command)
+├── client/                   # React frontend
+│   ├── public/               # Static assets, favicon, manifest.webmanifest, sw.js
+│   └── src/
+│       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar
+│       ├── context/          # ThemeContext (Dark / Light mode)
+│       └── services/         # REST API service client
+├── docs/                     # Project blueprint, sprint plans, and progress log
+├── biome.json                # Biome-JS linter & formatter config for React client
+├── pyproject.toml            # Python formatter & linter config for Django backend
+├── AGENTS.md                 # Agent guidelines, architecture, and workflows
+├── CLAUDE.md                 # CLI & quick reference guide
+└── README.md                 # Comprehensive project README
 ```

@@ -7,21 +7,21 @@ from .models import Task
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields: ClassVar[list[str]] = [
-            'id',
-            'title',
-            'description',
-            'status',
-            'priority',
-            'assignee',
-            'created_at',
-            'updated_at',
-        ]
-        read_only_fields: ClassVar[list[str]] = ['id', 'created_at', 'updated_at']
+	class Meta:
+		model = Task
+		fields: ClassVar[list[str]] = [
+			"id",
+			"title",
+			"description",
+			"status",
+			"priority",
+			"assignee",
+			"created_at",
+			"updated_at",
+		]
+		read_only_fields: ClassVar[list[str]] = ["id", "created_at", "updated_at"]
 
-    def validate_assignee(self, value):
-        if not value or not value.strip():
-            return 'Admin'
-        return value
+	def validate_assignee(self, value):
+		if not value or not value.strip():
+			return "Admin"
+		return value

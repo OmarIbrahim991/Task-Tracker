@@ -42,7 +42,7 @@ Task Tracker is a modern, responsive full-stack task management application feat
   - Line Width: `160`
   - Line Endings: `CRLF` (`\r\n`)
 - **Backend (`pyproject.toml`)**: Formatted using PEP 8 / Ruff standards:
-  - Indent: 4 spaces
+  - Indent: Tabs (width = 4 spaces equivalent)
   - Line Length: `160`
   - Line Endings: `CRLF` (`\r\n`)
 
