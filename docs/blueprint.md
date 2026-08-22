@@ -149,6 +149,7 @@ class Task(models.Model):
 | Sprint 1.1 | Documentation, PWA & Branding | Feature 1: Project documentation (AGENTS.md, CLAUDE.md, README.md)<br>Feature 2: Progressive Web App (PWA) & Service Worker<br>Feature 3: Favicon update & Brand asset integration |
 | Sprint 1.2 | Formatter & Tooling Setup | Feature 1: Retain AGENTS.md and CLAUDE.md in project root<br>Feature 2: Biome-JS linter/formatter config for React client<br>Feature 3: Python pyproject.toml formatter config for Django backend |
 | Sprint 1.3 | Lint Error Resolution | Feature 1: Accessibility & keyboard navigation fixes<br>Feature 2: Import organization & code style cleanup<br>Feature 3: React hook dependency corrections |
+| Sprint 1.4 | Backend Ruff Error Resolution | Feature 1: Backend import organization<br>Feature 2: Django class attribute lint corrections<br>Feature 3: Seed command and migration lint policy cleanup |
 
 ### Implementation Strategy
 - Features are designed to be independent and modular.
