@@ -40,11 +40,11 @@ Task Tracker is a modern, responsive full-stack task management application feat
   - Semicolons: `"asNeeded"` (no semicolons unless required)
   - Trailing Commas: `"all"`
   - Line Width: `160`
-  - Line Endings: `LF` (`\n`)
+  - Line Endings: `CRLF` (`\r\n`)
 - **Backend (`pyproject.toml`)**: Formatted using PEP 8 / Ruff standards:
   - Indent: 4 spaces
   - Line Length: `160`
-  - Line Endings: `LF` (`\n`)
+  - Line Endings: `CRLF` (`\r\n`)
 
 ---
 

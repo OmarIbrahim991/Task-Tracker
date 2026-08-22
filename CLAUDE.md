@@ -26,8 +26,8 @@ This document provides quick reference commands, project layout details, code fo
 
 ## 2. Formatting & Code Style Standards
 
-- **Frontend (`biome.json`)**: Biome-JS configured with tabs (tab width: 4), `semicolons: "asNeeded"` (no trailing semicolons unless required), trailing commas (`"all"`), print width `160`, and LF line endings (`\n`).
-- **Backend (`pyproject.toml`)**: Python Ruff / Black configured with 4 spaces per indent level, print width `160` (`line-length = 160`), trailing commas, and LF line endings (`\n`).
+- **Frontend (`biome.json`)**: Biome-JS configured with tabs (tab width: 4), `semicolons: "asNeeded"` (no trailing semicolons unless required), trailing commas (`"all"`), print width `160`, and CRLF line endings (`\r\n`).
+- **Backend (`pyproject.toml`)**: Python Ruff / Black configured with 4 spaces per indent level, print width `160` (`line-length = 160`), trailing commas, and CRLF line endings (`\r\n`).
 
 ---
 

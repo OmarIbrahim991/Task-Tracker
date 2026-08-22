@@ -1,5 +1,14 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"files": {
+		"ignore": ["dist", "node_modules"],
+		"ignoreUnknown": false
+	},
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
 	"organizeImports": {
 		"enabled": true
 	},

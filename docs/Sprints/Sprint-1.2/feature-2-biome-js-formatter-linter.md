@@ -26,7 +26,7 @@ Add and configure Biome-JS (`biome.json`) in the project root / client folder as
     "formatWithErrors": false,
     "indentStyle": "tab",
     "indentWidth": 4,
-    "lineEnding": "lf",
+    "lineEnding": "crlf",
     "lineWidth": 160
   },
   "javascript": {
@@ -53,7 +53,7 @@ Add and configure Biome-JS (`biome.json`) in the project root / client folder as
 3. Format existing `client/` files using Biome configuration rules.
 
 ## Acceptance Criteria
-- [ ] `biome.json` exists with tab indentation (4 spaces equivalent), `semicolons: "asNeeded"`, `trailingCommas: "all"`, and `lineEnding: "lf"`.
+- [ ] `biome.json` exists with tab indentation (4 spaces equivalent), `semicolons: "asNeeded"`, `trailingCommas: "all"`, and `lineEnding: "crlf"`.
 - [ ] Frontend code in `client/` adheres to Biome formatting rules.
 
 ## Dependencies

@@ -8,3 +8,4 @@ This file tracks the completion status of each sprint.
 | Sprint 1.0 | ✅ Complete | Core FullStack Task Tracker MVP (Django DRF Backend + React Kanban Board + Native Drag & Drop + Theme Switcher) |
 | Sprint 1.1 | ✅ Complete | Project Documentation (AGENTS.md, CLAUDE.md, README.md), Progressive Web App (PWA) setup, and Favicon/Brand Asset Integration |
 | Sprint 1.2 | ✅ Complete | Retain AGENTS.md and CLAUDE.md in project root, configure Biome-JS linter/formatter (tabs, 4 spaces, no semi-colons, line width 160), and Python backend formatter |
+| Sprint 1.3 | ✅ Complete | Fix all 27 Biome lint errors: a11y & keyboard accessibility (type="button", keyboard handlers, htmlFor/id, remove autoFocus), import sorting & code style (organizeImports, Number.parseInt, self-closing, noUselessSwitchCase), and React hook dependency corrections (useCallback for fetchTasks/handleSaveTask) — via Qwen3 1.7B sub-agents |
