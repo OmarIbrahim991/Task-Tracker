@@ -18,6 +18,8 @@ Task Tracker is a modern, responsive full-stack task management application feat
 - ✋ **Native Drag & Drop**: Smooth HTML5 browser drag and drop (zero third-party drag libraries).
 - 🌓 **Dark & Light Mode**: Seamless theme switching with persistent user preference in `localStorage`.
 - 📝 **Full Task CRUD**: Create, edit, delete, and view task details with priority badges (`Low`, `Medium`, `High`).
+- 📁 **Project Resources**: Create and delete projects, then assign each task to zero or more projects.
+- 🏷️ **Project Tags & Filtering**: Task cards show one tag per project, and enabled project toggles filter the board to matching tasks.
 - ⚡ **Optimistic UI Updates**: Immediate client state updates with REST API synchronization.
 - 📱 **Progressive Web App (PWA)**: Standalone web app installation and Service Worker static caching.
 - 🚀 **RESTful Django API**: Django REST Framework backend with SQLite database and initial seed scripts.
@@ -41,7 +43,7 @@ Task Tracker is a modern, responsive full-stack task management application feat
   - Trailing Commas: `"all"`
   - Line Width: `160`
   - Line Endings: `CRLF` (`\r\n`)
-- **Backend (`pyproject.toml`)**: Formatted using PEP 8 / Ruff standards:
+- **Backend (`pyproject.toml`)**: Formatted using Ruff:
   - Indent: Tabs (width = 4 spaces equivalent)
   - Line Length: `160`
   - Line Endings: `CRLF` (`\r\n`)
@@ -109,6 +111,21 @@ Base Endpoint: `http://127.0.0.1:8000/api/tasks/`
 | `GET` | `/api/tasks/{id}/` | Get task by ID | — |
 | `PATCH` | `/api/tasks/{id}/` | Update task status or fields | `{"status": "IN_PROGRESS"}` |
 | `DELETE` | `/api/tasks/{id}/` | Delete task | — |
+
+### Projects
+
+Projects are independent resources. A task may belong to no projects, one project, or many projects. Deleting a project removes its task associations but never deletes the associated tasks. Deleting a task removes all of its project associations.
+
+| HTTP Method | Route | Description | Sample Body |
+|---|---|---|---|
+| `GET` | `/api/projects/` | Fetch all projects | — |
+| `POST` | `/api/projects/` | Create a project | `{"name": "Website refresh"}` |
+| `GET` | `/api/projects/{id}/` | Get project by ID | — |
+| `DELETE` | `/api/projects/{id}/` | Delete project and its associations | — |
+
+Task create and update requests may include `project_ids`, for example `{"title": "Review copy", "project_ids": [1, 3]}`. Task responses include the project IDs and project summaries needed to render tags.
+
+On the Kanban board, when no projects are enabled all tasks are shown, including unassigned tasks. When one or more projects are enabled, only tasks belonging to at least one enabled project are shown.
 
 ---
 

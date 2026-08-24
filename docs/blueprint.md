@@ -9,6 +9,8 @@ Task Tracker is a full-stack task and todo management application featuring an i
 - Provide a visual single-page Kanban board for real-time task status tracking.
 - Enable smooth drag-and-drop task movements across status columns using native browser HTML5 drag-and-drop (zero third-party drag-and-drop dependencies).
 - Support full CRUD operations for tasks (Title, Description, Status, Priority, Assignee).
+- Allow users to create and delete projects and associate each task with zero or more projects.
+- Allow users to filter the board by enabled projects while keeping unassigned tasks available when no project filter is active.
 - Deliver a modern UI experience supporting Light and Dark modes with persistent user preference.
 - Provide a clean, robust backend API using Django REST Framework backed by SQLite.
 
@@ -17,6 +19,8 @@ Task Tracker is a full-stack task and todo management application featuring an i
 - **As an Admin user**, I want to drag a task card from one column and drop it into another column to update its status instantly.
 - **As an Admin user**, I want to create a new task with a title, description, priority level (Low, Medium, High), and status, with assignee automatically defaulting to "Admin".
 - **As an Admin user**, I want to edit existing task details or change status directly via an inline dropdown or modal editor.
+- **As an Admin user**, I want to create and delete projects and assign tasks to zero or more projects.
+- **As an Admin user**, I want each task card to show its projects as tags and toggle projects on or off to filter visible tasks.
 - **As an Admin user**, I want to toggle between Light and Dark mode to comfortably view the application in different lighting environments.
 
 ### Functional Requirements
@@ -27,6 +31,11 @@ Task Tracker is a full-stack task and todo management application featuring an i
      - `GET /api/tasks/{id}/` — Retrieve a single task.
      - `PUT/PATCH /api/tasks/{id}/` — Update task fields (e.g. status, priority, title, description).
      - `DELETE /api/tasks/{id}/` — Delete a task.
+   - REST API endpoints for Projects:
+     - `GET /api/projects/` — List all projects.
+     - `POST /api/projects/` — Create a project.
+     - `GET /api/projects/{id}/` — Retrieve a project and its task references.
+     - `DELETE /api/projects/{id}/` — Delete a project without deleting its tasks.
    - Task Data Schema:
      - `id`: Auto-incrementing integer (Primary Key)
      - `title`: String (required, max 255 chars)
@@ -36,6 +45,12 @@ Task Tracker is a full-stack task and todo management application featuring an i
      - `assignee`: String (defaults to "Admin")
      - `created_at`: DateTime (auto on create)
      - `updated_at`: DateTime (auto on update)
+   - Project Data Schema:
+     - `id`: Auto-incrementing integer (Primary Key)
+     - `name`: String (required, unique, max 100 chars)
+     - `created_at`: DateTime (auto on create)
+     - `updated_at`: DateTime (auto on update)
+   - Task-to-project relationship: Many-to-many. A task may have no projects or many projects. Deleting a task removes its relationship rows; deleting a project removes only its relationship rows and leaves the task intact.
    - CORS headers configuration to allow API communication with the React frontend server.
 
 2. **Frontend (React + Vite + pnpm)**:
@@ -52,6 +67,8 @@ Task Tracker is a full-stack task and todo management application featuring an i
      - Quick task creation modal / form.
      - Status dropdown on task card and modal for direct status changing.
      - Priority badges (Low: Blue/Green, Medium: Amber/Yellow, High: Red/Rose).
+     - Project management controls for creating and deleting projects.
+     - Project filter toggles that show tasks matching enabled projects; task cards display one tag per associated project.
    - Theme System:
      - Light Mode & Dark Mode toggle button.
      - Persists theme choice in `localStorage`.
@@ -64,7 +81,7 @@ Task Tracker is a full-stack task and todo management application featuring an i
 
 ### Constraints & Assumptions
 - **Authentication**: Bypassed for MVP. All operations treat the user as "Admin".
-- **Scope**: Single board view; no multi-project isolation or user management models required initially.
+- **Scope**: Single board view with project labels and filtering; no user management models required initially.
 - **Package Manager**: Frontend must use `pnpm`.
 - **Drag & Drop**: STRICTLY NO third-party libraries (e.g., `react-beautiful-dnd`, `@hello-pangea/dnd`, `dnd-kit`). Must use standard HTML5 drag & drop events.
 
@@ -150,6 +167,7 @@ class Task(models.Model):
 | Sprint 1.2 | Formatter & Tooling Setup | Feature 1: Retain AGENTS.md and CLAUDE.md in project root<br>Feature 2: Biome-JS linter/formatter config for React client<br>Feature 3: Python pyproject.toml formatter config for Django backend |
 | Sprint 1.3 | Lint Error Resolution | Feature 1: Accessibility & keyboard navigation fixes<br>Feature 2: Import organization & code style cleanup<br>Feature 3: React hook dependency corrections |
 | Sprint 1.4 | Backend Ruff Error Resolution | Feature 1: Backend import organization<br>Feature 2: Django class attribute lint corrections<br>Feature 3: Seed command and migration lint policy cleanup |
+| Sprint 2.0 | Project Resources & Task Filtering | Feature 1: Django Projects API and task many-to-many relationship<br>Feature 2: React project management, task tags, and project filtering |
 
 ### Implementation Strategy
 - Features are designed to be independent and modular.

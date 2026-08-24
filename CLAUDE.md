@@ -42,6 +42,12 @@ Base URL: `http://127.0.0.1:8000/api`
 | `/api/tasks/{id}/` | GET | Retrieve single task |
 | `/api/tasks/{id}/` | PATCH / PUT | Update task fields (e.g. status or priority) |
 | `/api/tasks/{id}/` | DELETE | Delete task |
+| `/api/projects/` | GET | List all projects |
+| `/api/projects/` | POST | Create a project (`name`) |
+| `/api/projects/{id}/` | GET | Retrieve a project |
+| `/api/projects/{id}/` | DELETE | Delete a project without deleting tasks |
+
+Tasks may reference zero or many projects through `project_ids`. Task responses include project summaries for tags. Deleting a task removes its project associations; deleting a project removes only associations and preserves tasks. The board shows all tasks when no project is enabled, then filters to tasks matching at least one enabled project.
 
 ---
 
@@ -55,7 +61,7 @@ Task Tracker/
 ├── client/                   # React frontend
 │   ├── public/               # Static assets, favicon, manifest.webmanifest, sw.js
 │   └── src/
-│       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar
+│       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar, ProjectManager
 │       ├── context/          # ThemeContext (Dark / Light mode)
 │       └── services/         # REST API service client
 ├── docs/                     # Project blueprint, sprint plans, and progress log

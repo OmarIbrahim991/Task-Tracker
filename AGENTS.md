@@ -18,6 +18,7 @@ Task Tracker is a decoupled FullStack task management web application consisting
 |         (Vite + pnpm + CSS)        |  http://127.0.0.1:8000/api   |      (DRF + SQLite Database)      |
 |                                    |                              |                                  |
 | - Kanban Board (Native D&D)        |                              | - Task Model & Serializers       |
+| - Project Tags & Filters           |                              | - Project Model & ViewSet        |
 | - Light / Dark Theme Provider      |                              | - TaskViewSet & Router           |
 | - Service Worker & PWA Shell       |                              | - CORS Middleware                |
 +------------------------------------+                              +----------------------------------+
@@ -42,6 +43,12 @@ Task Tracker is a decoupled FullStack task management web application consisting
 
 5. **Authentication**:
    - Authentication is bypassed for now. Default user is `"Admin"`.
+
+6. **Project Relationships**:
+   - A task may belong to zero or many projects through a Django many-to-many relationship.
+   - Deleting a task removes its project associations.
+   - Deleting a project removes only its associations and preserves all tasks.
+   - Do not introduce cascading deletion from projects to tasks.
 
 ---
 
@@ -101,6 +108,12 @@ Base URL: `http://127.0.0.1:8000/api`
 | `/api/tasks/{id}/` | GET | Retrieve single task |
 | `/api/tasks/{id}/` | PATCH / PUT | Update task fields (e.g. status or priority) |
 | `/api/tasks/{id}/` | DELETE | Delete task |
+| `/api/projects/` | GET | List all projects |
+| `/api/projects/` | POST | Create a project (`name`) |
+| `/api/projects/{id}/` | GET | Retrieve a project |
+| `/api/projects/{id}/` | DELETE | Delete a project without deleting tasks |
+
+Task create/update payloads may include `project_ids: []` or a list of project IDs. Task responses should include project summaries for tags. The frontend shows all tasks when no project is enabled; with enabled projects, it shows tasks whose project set intersects the enabled set.
 
 ## 6. Project Structure
 
@@ -112,7 +125,7 @@ Task Tracker/
 ├── client/                   # React frontend
 │   ├── public/               # Static assets, favicon, manifest.webmanifest, sw.js
 │   └── src/
-│       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar
+│       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar, ProjectManager
 │       ├── context/          # ThemeContext (Dark / Light mode)
 │       └── services/         # REST API service client
 ├── docs/                     # Project blueprint, sprint plans, and progress log
