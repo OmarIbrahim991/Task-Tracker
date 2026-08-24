@@ -217,7 +217,7 @@ export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, isProjec
 
 	return (
 		<div className="main-container">
-			{isProjectManagerOpen && (
+			<div className={`project-panel-shell${isProjectManagerOpen ? " is-open" : ""}`} aria-hidden={!isProjectManagerOpen}>
 				<ProjectManager
 					projects={projects}
 					enabledProjectIds={enabledProjectIds}
@@ -228,7 +228,7 @@ export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, isProjec
 					onCreate={handleCreateProject}
 					onDelete={handleDeleteProject}
 				/>
-			)}
+			</div>
 			<div className="board-stats">
 				<div className="stat-pill">
 					<span>Total Tasks:</span>
