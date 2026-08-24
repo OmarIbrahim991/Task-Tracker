@@ -4,6 +4,18 @@ from typing import ClassVar
 from django.db import models
 
 
+class Project(models.Model):
+	name = models.CharField(max_length=255, unique=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		ordering: ClassVar[list[str]] = ["-created_at"]
+
+	def __str__(self):
+		return self.name
+
+
 class Task(models.Model):
 	STATUS_CHOICES: ClassVar[list[tuple[str, str]]] = [
 		("TODO", "To Do"),
@@ -23,6 +35,7 @@ class Task(models.Model):
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="TODO")
 	priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="MEDIUM")
 	assignee = models.CharField(max_length=100, default="Admin")
+	projects = models.ManyToManyField(Project, blank=True, related_name="tasks")
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 

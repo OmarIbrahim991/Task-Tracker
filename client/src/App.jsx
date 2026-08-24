@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext"
 export default function App() {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [taskToEdit, setTaskToEdit] = useState(null)
+	const [isProjectManagerOpen, setIsProjectManagerOpen] = useState(false)
 	const saveHandlerRef = useRef(null)
 
 	const handleOpenNewTaskModal = () => {
@@ -34,9 +35,14 @@ export default function App() {
 	return (
 		<ThemeProvider>
 			<div className="app-container">
-				<Navbar onOpenNewTaskModal={handleOpenNewTaskModal} />
+				<Navbar
+					onOpenNewTaskModal={handleOpenNewTaskModal}
+					isProjectManagerOpen={isProjectManagerOpen}
+					onToggleProjectManager={() => setIsProjectManagerOpen((isOpen) => !isOpen)}
+				/>
 				<KanbanBoard
 					onOpenModalWithTask={handleOpenEditTaskModal}
+					isProjectManagerOpen={isProjectManagerOpen}
 					registerSaveHandler={(fn) => {
 						saveHandlerRef.current = fn
 					}}

@@ -56,6 +56,17 @@ Task Tracker is a modern, responsive full-stack task management application feat
 - Python 3.10 or higher
 - Node.js 18+ & `pnpm` (`npm i -g pnpm`)
 
+### Environment & Configuration Locations
+- **Python virtual environment**: `backend/env/`. Activate it from the repository root with `backend\env\Scripts\Activate.ps1` in PowerShell or `backend\env\Scripts\activate.bat` in Command Prompt.
+- **Backend dependencies**: `backend/requirements.txt`.
+- **Django settings**: `backend/core/settings.py`.
+- **Django URL routing**: `backend/core/urls.py` and `backend/tasks/urls.py`.
+- **Backend formatter and linter**: `backend/pyproject.toml`.
+- **Frontend dependencies and scripts**: `client/package.json`.
+- **Vite development and build configuration**: `client/vite.config.js`.
+- **Frontend formatter and linter**: `client/biome.json`.
+- **Frontend theme and global styles**: `client/src/index.css`.
+
 ---
 
 ### 1. Setup Backend (Django REST API)
@@ -64,8 +75,12 @@ Task Tracker is a modern, responsive full-stack task management application feat
 # Navigate to workspace directory
 cd backend
 
-# Install Python dependencies
-pip install django djangorestframework django-cors-headers
+# Activate the existing Python virtual environment
+.\env\Scripts\Activate.ps1  # PowerShell
+# Or use .\env\Scripts\activate.bat in Command Prompt
+
+# Install Python dependencies into the virtual environment
+pip install -r requirements.txt
 
 # Run database migrations
 python manage.py migrate

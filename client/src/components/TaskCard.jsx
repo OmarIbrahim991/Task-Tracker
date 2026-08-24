@@ -63,6 +63,16 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }
 
 			{task.description && <p className="task-description">{task.description}</p>}
 
+			{task.projects?.length > 0 && (
+				<div className="project-tags" aria-label="Associated projects">
+					{task.projects.map((project) => (
+						<span className="project-tag" key={project.id} title={project.name}>
+							{project.name}
+						</span>
+					))}
+				</div>
+			)}
+
 			<div className="task-meta">
 				<span className={`badge ${getPriorityBadgeClass(task.priority)}`}>{task.priority}</span>
 

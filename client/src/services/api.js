@@ -46,3 +46,31 @@ export const taskApi = {
 		return true
 	},
 }
+
+export const projectApi = {
+	async getProjects() {
+		const response = await fetch(`${API_BASE_URL}/projects/`)
+		if (!response.ok) throw new Error("Failed to fetch projects")
+		return await response.json()
+	},
+
+	async createProject(name) {
+		const response = await fetch(`${API_BASE_URL}/projects/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name }),
+		})
+		if (!response.ok) throw new Error("Failed to create project")
+		return await response.json()
+	},
+
+	async deleteProject(id) {
+		const response = await fetch(`${API_BASE_URL}/projects/${id}/`, {
+			method: "DELETE",
+		})
+		if (!response.ok) throw new Error(`Failed to delete project ${id}`)
+		return true
+	},
+}

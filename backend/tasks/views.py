@@ -2,8 +2,13 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from .models import Task
-from .serializers import TaskSerializer
+from .models import Project, Task
+from .serializers import ProjectSerializer, TaskSerializer
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+	queryset = Project.objects.all()
+	serializer_class = ProjectSerializer
 
 
 class TaskViewSet(viewsets.ModelViewSet):

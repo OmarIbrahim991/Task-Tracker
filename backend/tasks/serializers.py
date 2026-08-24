@@ -3,10 +3,26 @@ from typing import ClassVar
 
 from rest_framework import serializers
 
-from .models import Task
+from .models import Project, Task
+
+
+class ProjectSummarySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Project
+		fields: ClassVar[list[str]] = ["id", "name"]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Project
+		fields: ClassVar[list[str]] = ["id", "name", "created_at", "updated_at"]
+		read_only_fields: ClassVar[list[str]] = ["id", "created_at", "updated_at"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
+	project_ids = serializers.PrimaryKeyRelatedField(source="projects", many=True, queryset=Project.objects.all(), required=False, allow_empty=True)
+	projects = ProjectSummarySerializer(many=True, read_only=True)
+
 	class Meta:
 		model = Task
 		fields: ClassVar[list[str]] = [
@@ -16,6 +32,8 @@ class TaskSerializer(serializers.ModelSerializer):
 			"status",
 			"priority",
 			"assignee",
+			"project_ids",
+			"projects",
 			"created_at",
 			"updated_at",
 		]

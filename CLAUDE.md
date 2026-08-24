@@ -7,6 +7,17 @@ This document provides quick reference commands, project layout details, code fo
 
 ## 1. Quick Commands
 
+### Environment & Configuration Locations
+- **Python virtual environment**: `backend/env/`. Activate it with `backend\env\Scripts\Activate.ps1` in PowerShell or `backend\env\Scripts\activate.bat` in Command Prompt.
+- **Backend dependencies**: `backend/requirements.txt`.
+- **Django settings**: `backend/core/settings.py`.
+- **Django URL routing**: `backend/core/urls.py` and `backend/tasks/urls.py`.
+- **Backend formatter and linter**: `backend/pyproject.toml`.
+- **Frontend dependencies and scripts**: `client/package.json`.
+- **Vite development and build configuration**: `client/vite.config.js`.
+- **Frontend formatter and linter**: `client/biome.json`.
+- **Frontend theme and global styles**: `client/src/index.css`.
+
 ### Backend Commands (Django REST Framework)
 - **Start Backend API**: `python backend/manage.py runserver 8000`
 - **Run Migrations**: `python backend/manage.py migrate`
