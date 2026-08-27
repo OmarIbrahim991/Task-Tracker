@@ -558,6 +558,10 @@ body {
 	transform: scale(0.98);
 }
 
+.drag-over-card {
+	outline: 2px solid var(--accent);
+}
+
 .task-card-header {
 	display: flex;
 	justify-content: space-between;

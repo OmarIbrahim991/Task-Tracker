@@ -2,6 +2,7 @@
 from typing import ClassVar
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Project(models.Model):
@@ -34,13 +35,14 @@ class Task(models.Model):
 	description = models.TextField(blank=True, default="")
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="TODO")
 	priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="MEDIUM")
-	assignee = models.CharField(max_length=100, default="Admin")
+	assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="tasks")
 	projects = models.ManyToManyField(Project, blank=True, related_name="tasks")
+	position = models.IntegerField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	class Meta:
-		ordering: ClassVar[list[str]] = ["-created_at"]
+		ordering: ClassVar[list[str]] = ["status", "position", "id"]
 
 	def __str__(self):
 		return f"{self.title} ({self.get_status_display()})"

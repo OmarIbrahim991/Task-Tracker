@@ -2,8 +2,29 @@
 from typing import ClassVar
 
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 from .models import Project, Task
+
+
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields: ClassVar[list[str]] = ["id", "username"]
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+	password = serializers.CharField(write_only=True)
+
+	class Meta:
+		model = User
+		fields: ClassVar[list[str]] = ["username", "password"]
+
+	def create(self, validated_data):
+		user = User(username=validated_data["username"])
+		user.set_password(validated_data["password"])
+		user.save()
+		return user
 
 
 class ProjectSummarySerializer(serializers.ModelSerializer):
@@ -22,6 +43,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
 	project_ids = serializers.PrimaryKeyRelatedField(source="projects", many=True, queryset=Project.objects.all(), required=False, allow_empty=True)
 	projects = ProjectSummarySerializer(many=True, read_only=True)
+	assignee = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False, allow_null=True)
+	assignee_details = UserSerializer(source="assignee", read_only=True)
 
 	class Meta:
 		model = Task
@@ -32,14 +55,18 @@ class TaskSerializer(serializers.ModelSerializer):
 			"status",
 			"priority",
 			"assignee",
+			"assignee_details",
 			"project_ids",
 			"projects",
+			"position",
 			"created_at",
 			"updated_at",
 		]
 		read_only_fields: ClassVar[list[str]] = ["id", "created_at", "updated_at"]
 
 	def validate_assignee(self, value):
-		if not value or not value.strip():
-			return "Admin"
+		if not value:
+			# Resolve Admin default
+			admin_user, _ = User.objects.get_or_create(username="Admin")
+			return admin_user
 		return value

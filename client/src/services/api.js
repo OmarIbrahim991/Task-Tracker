@@ -45,6 +45,21 @@ export const taskApi = {
 		if (!response.ok) throw new Error(`Failed to delete task ${id}`)
 		return true
 	},
+
+	async reorderTask(id, targetStatus, targetTaskId) {
+		const response = await fetch(`${API_BASE_URL}/tasks/${id}/reorder/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				status: targetStatus,
+				target_task_id: targetTaskId,
+			}),
+		})
+		if (!response.ok) throw new Error(`Failed to reorder task ${id}`)
+		return await response.json()
+	},
 }
 
 export const projectApi = {
@@ -72,5 +87,13 @@ export const projectApi = {
 		})
 		if (!response.ok) throw new Error(`Failed to delete project ${id}`)
 		return true
+	},
+}
+
+export const userApi = {
+	async getUsers() {
+		const response = await fetch(`${API_BASE_URL}/users/`)
+		if (!response.ok) throw new Error("Failed to fetch users")
+		return await response.json()
 	},
 }

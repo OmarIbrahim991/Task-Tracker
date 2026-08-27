@@ -44,7 +44,7 @@ SAMPLE_TASKS = [
 		"description": "Ensure Kanban columns scale cleanly on desktop and tablet screens.",
 		"status": "REVIEW",
 		"priority": "LOW",
-		"assignee": "Admin",
+		"assignee": "",
 	},
 ]
 

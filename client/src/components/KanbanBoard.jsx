@@ -146,10 +146,38 @@ export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, isProjec
 		}
 	}
 
-	const handleDropTask = (taskId, targetStatus) => {
+	const handleDropTask = async (taskId, targetStatus, targetTaskId) => {
 		const targetTask = tasks.find((t) => t.id === taskId)
-		if (targetTask && targetTask.status !== targetStatus) {
-			handleStatusChange(taskId, targetStatus)
+		if (!targetTask) return
+
+		// Optimistic update locally
+		setTasks((current) => {
+			const updated = current.filter((t) => t.id !== taskId)
+			const movedTask = { ...targetTask, status: targetStatus }
+
+			if (targetTaskId) {
+				const targetIdx = updated.findIndex((t) => t.id === targetTaskId)
+				if (targetIdx !== -1) {
+					// Insert at targetIdx to push target and subsequent tasks down
+					updated.splice(targetIdx, 0, movedTask)
+				} else {
+					updated.push(movedTask)
+				}
+			} else {
+				// Insert at end of the status group
+				updated.push(movedTask)
+			}
+			return updated
+		})
+
+		if (!useFallback) {
+			try {
+				await taskApi.reorderTask(taskId, targetStatus, targetTaskId)
+				fetchTasks() // Sync positions accurately from backend
+			} catch (err) {
+				console.error("Failed to sync drop reorder with backend:", err)
+				fetchTasks() // Revert on failure
+			}
 		}
 	}
 

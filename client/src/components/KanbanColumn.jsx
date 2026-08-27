@@ -22,7 +22,8 @@ export const KanbanColumn = ({ column, tasks, onEditTask, onDeleteTask, onStatus
 		const taskIdStr = e.dataTransfer.getData("text/plain")
 		const taskId = Number.parseInt(taskIdStr, 10)
 		if (taskId) {
-			onDropTask(taskId, column.id)
+			// Dropped directly on column -> place at the beginning (afterTaskId = null)
+			onDropTask(taskId, column.id, null)
 		}
 	}
 
@@ -42,7 +43,16 @@ export const KanbanColumn = ({ column, tasks, onEditTask, onDeleteTask, onStatus
 						<span>No tasks in {column.title}</span>
 					</div>
 				) : (
-					tasks.map((task) => <TaskCard key={task.id} task={task} onEdit={onEditTask} onDelete={onDeleteTask} onStatusChange={onStatusChange} />)
+					tasks.map((task) => (
+						<TaskCard
+							key={task.id}
+							task={task}
+							onEdit={onEditTask}
+							onDelete={onDeleteTask}
+							onStatusChange={onStatusChange}
+							onDropTask={onDropTask}
+						/>
+					))
 				)}
 			</div>
 		</div>

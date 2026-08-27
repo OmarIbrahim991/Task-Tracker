@@ -2,8 +2,9 @@
 import { Edit2, Trash2, User } from "lucide-react"
 import { useState } from "react"
 
-export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }) => {
+export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart, onDropTask }) => {
 	const [isDragging, setIsDragging] = useState(false)
+	const [isDragOver, setIsDragOver] = useState(false)
 
 	const handleDragStart = (e) => {
 		setIsDragging(true)
@@ -18,6 +19,30 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }
 		setIsDragging(false)
 	}
 
+	const handleDragOver = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		e.dataTransfer.dropEffect = "move"
+		if (!isDragOver) setIsDragOver(true)
+	}
+
+	const handleDragLeave = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setIsDragOver(false)
+	}
+
+	const handleDrop = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setIsDragOver(false)
+		const taskIdStr = e.dataTransfer.getData("text/plain")
+		const draggedTaskId = Number.parseInt(taskIdStr, 10)
+		if (draggedTaskId && draggedTaskId !== task.id && onDropTask) {
+			onDropTask(draggedTaskId, task.status, task.id)
+		}
+	}
+
 	const getPriorityBadgeClass = (priority) => {
 		switch (priority) {
 			case "HIGH":
@@ -30,7 +55,15 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }
 	}
 
 	return (
-		<div className={`task-card ${isDragging ? "dragging" : ""}`} draggable={true} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+		<div
+			className={`task-card ${isDragging ? "dragging" : ""} ${isDragOver ? "drag-over-card" : ""}`}
+			draggable={true}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+			onDragOver={handleDragOver}
+			onDragLeave={handleDragLeave}
+			onDrop={handleDrop}
+		>
 			<div className="task-card-header">
 				<h4 className="task-title">{task.title}</h4>
 				<div style={{ display: "flex", gap: "0.25rem" }}>
@@ -78,7 +111,7 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart }
 
 				<div className="assignee-tag">
 					<User size={12} />
-					<span>{task.assignee || "Admin"}</span>
+					<span>{task.assignee_details?.username || "Admin"}</span>
 				</div>
 
 				<select
