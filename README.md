@@ -30,7 +30,7 @@ Task Tracker is a modern, responsive full-stack task management application feat
 ## 🛠️ Technology Stack
 
 - **Backend**: Python 3.10+, Django 5.x, Django REST Framework 3.15+, `django-cors-headers`, SQLite, `pyproject.toml`.
-- **Frontend**: React 18/19, Vite, `pnpm`, Biome-JS (`biome.json`), Lucide React (icons), Vanilla CSS Design System.
+- **Frontend**: React 18/19, Vite, Wouter (routing), `pnpm`, Biome-JS (`biome.json`), Lucide React (icons), Vanilla CSS Design System.
 - **PWA & Branding**: Web App Manifest (`manifest.webmanifest`), Service Worker (`sw.js`), Custom SVG/ICO Favicons.
 
 ---

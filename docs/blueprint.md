@@ -62,7 +62,7 @@ Task Tracker is a full-stack task and todo management application featuring an i
    - Task-to-project relationship: Many-to-many. A task may have no projects or many projects. Deleting a task removes its relationship rows; deleting a project removes only its relationship rows and leaves the task intact.
    - CORS headers configuration to allow API communication with the React frontend server.
 
-2. **Frontend (React + Vite + pnpm)**:
+2. **Frontend (React + Vite + Wouter + pnpm)**:
    - Single global Kanban board view displaying 4 status columns:
      - 📝 To Do (`TODO`)
      - ⚡ In Progress (`IN_PROGRESS`)
@@ -104,7 +104,7 @@ Task Tracker is a full-stack task and todo management application featuring an i
 
 ### Architecture Overview
 The application follows a decoupled Client-Server architecture:
-- **Frontend Client (`client/`)**: Built with React (latest), Vite, and pnpm. Communicates with the backend over HTTP/REST using standard JSON payloads.
+- **Frontend Client (`client/`)**: Built with React (latest), Vite, Wouter (routing), and pnpm. Communicates with the backend over HTTP/REST using standard JSON payloads.
 - **Backend API (`backend/`)**: Built with Python, Django 5+, and Django REST Framework. Uses SQLite for persistence and `django-cors-headers` to enable cross-origin requests from the React client.
 
 ```
@@ -129,6 +129,7 @@ The application follows a decoupled Client-Server architecture:
   - React 18/19 (latest)
   - Vite (build tool & dev server)
   - `pnpm` (package manager)
+  - Wouter (routing)
   - Lucide React (icons)
   - Vanilla CSS with CSS Custom Properties (Theme Design System)
 

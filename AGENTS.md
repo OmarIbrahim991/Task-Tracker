@@ -10,7 +10,7 @@ Welcome to the **Task Tracker** repository! This document provides essential ins
 Task Tracker is a decoupled FullStack task management web application consisting of:
 
 - **Backend (`backend/`)**: Built with Python, Django 5+, and Django REST Framework (DRF). Uses SQLite for local persistence and `django-cors-headers` to accept client REST requests.
-- **Frontend (`client/`)**: Built with React 18/19, Vite, and managed exclusively with **`pnpm`**. Styling relies on custom Vanilla CSS variables with Dark/Light theme switching.
+- **Frontend (`client/`)**: Built with React 18/19, Vite, Wouter (routing), and managed exclusively with **`pnpm`**. Styling relies on custom Vanilla CSS variables with Dark/Light theme switching.
 
 ```
 +------------------------------------+    REST API (JSON) / HTTP    +----------------------------------+
