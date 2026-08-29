@@ -12,3 +12,4 @@ This file tracks the completion status of each sprint.
 | Sprint 1.4 | ✅ Complete | Resolved backend Ruff diagnostics through import organization, intentional Django class metadata annotations, seed-command cleanup, and a migration-only lint policy |
 | Sprint 2.0 | ✅ Complete | Implemented project CRUD, many-to-many task associations, project tags, and enabled-project filtering across the Django API and React Kanban board |
 | Sprint 3.0 | ✅ Complete | Add backend users and user-backed task assignees, plus persisted task ordering when cards are dropped after a specific task |
+| Sprint 3.1 | ✅ Complete | Configured Wouter routing with `/` and `/projects` routes, created dedicated projects management page with full CRUD, and refactored project controls to header-only toggle dropdown |
