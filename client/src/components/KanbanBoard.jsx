@@ -10,40 +10,7 @@ const COLUMNS = [
 	{ id: "DONE", title: "Done", color: "var(--status-done)" },
 ]
 
-const INITIAL_LOCAL_TASKS = [
-	{
-		id: 1,
-		title: "Design Kanban Board Layout",
-		description: "Implement drag and drop columns with theme tokens and glassmorphic card styling.",
-		status: "DONE",
-		priority: "HIGH",
-		assignee: "Admin",
-	},
-	{
-		id: 2,
-		title: "Implement Django REST Framework API",
-		description: "Configure Task model, serializers, viewsets, and CORS middleware.",
-		status: "IN_PROGRESS",
-		priority: "HIGH",
-		assignee: "Admin",
-	},
-	{
-		id: 3,
-		title: "Native Drag and Drop Handler",
-		description: "Build native HTML5 drag and drop events (onDragStart, onDragOver, onDrop).",
-		status: "IN_PROGRESS",
-		priority: "MEDIUM",
-		assignee: "Admin",
-	},
-	{
-		id: 4,
-		title: "Light and Dark Mode Toggle",
-		description: "Persistent theme toggle with prefers-color-scheme detection and CSS variables.",
-		status: "TODO",
-		priority: "LOW",
-		assignee: "Admin",
-	},
-]
+const INITIAL_LOCAL_TASKS = []
 
 const withProjectDetails = (task, projectIds, projects) => ({
 	...task,

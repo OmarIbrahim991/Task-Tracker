@@ -36,7 +36,8 @@ export const ProjectToggleDropdown = ({ projects, enabledProjectIds, onToggle })
 			</button>
 
 			{isOpen && (
-				<div className="project-dropdown-menu" role="group" aria-label="Project filters">
+				<fieldset className="project-dropdown-menu">
+					<legend className="sr-only">Project filters</legend>
 					{projects.length === 0 && <p className="project-dropdown-empty">No projects</p>}
 					{projects.map((project) => {
 						const isEnabled = enabledProjectIds.includes(project.id)
@@ -49,7 +50,7 @@ export const ProjectToggleDropdown = ({ projects, enabledProjectIds, onToggle })
 							</label>
 						)
 					})}
-				</div>
+				</fieldset>
 			)}
 		</div>
 	)

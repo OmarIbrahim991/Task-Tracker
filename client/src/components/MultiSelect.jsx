@@ -2,7 +2,7 @@
 import { ChevronDown, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
-export const MultiSelect = ({ options, selectedIds, onChange, placeholder = "Select items..." }) => {
+export const MultiSelect = ({ options, selectedIds, onChange, placeholder = "Select items...", ...attrs }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const containerRef = useRef(null)
 
@@ -39,13 +39,27 @@ export const MultiSelect = ({ options, selectedIds, onChange, placeholder = "Sel
 	}, [isOpen])
 
 	return (
-		<div className="multi-select-container" ref={containerRef}>
-			<button
-				type="button"
+		<div className="multi-select-container" ref={containerRef} {...attrs}>
+			<div
 				className={`multi-select-trigger${isOpen ? " open" : ""}`}
 				onClick={() => setIsOpen(!isOpen)}
+				onKeyDown={(event) => {
+					if (event.target !== event.currentTarget) {
+						return
+					}
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault()
+						setIsOpen((open) => !open)
+					} else if (event.key === "Escape") {
+						setIsOpen(false)
+					}
+				}}
+				// biome-ignore lint/a11y/useSemanticElements: trigger must be a div to avoid nesting <button> inside <button> which is invalid HTML
+				role="combobox"
+				tabIndex={0}
 				aria-haspopup="listbox"
 				aria-expanded={isOpen}
+				aria-controls="multi-select-listbox"
 				aria-label="Select projects"
 			>
 				<div className="multi-select-value">
@@ -84,26 +98,23 @@ export const MultiSelect = ({ options, selectedIds, onChange, placeholder = "Sel
 					)}
 					<ChevronDown size={18} className={`multi-select-chevron${isOpen ? " rotated" : ""}`} />
 				</div>
-			</button>
+			</div>
 
 			{isOpen && (
-				<div className="multi-select-dropdown">
+				<div id="multi-select-listbox" className="multi-select-dropdown">
 					{options.length > 0 ? (
 						<div className="multi-select-options">
 							{options.map((option) => (
-								<div className="multi-select-option" key={option.id}>
+								<label className="multi-select-option" key={option.id}>
 									<input
 										type="checkbox"
-										id={`multi-select-${option.id}`}
 										checked={selectedIds.includes(option.id)}
 										onChange={() => handleToggle(option.id)}
 										className="multi-select-checkbox"
 										aria-label={option.name}
 									/>
-									<label htmlFor={`multi-select-${option.id}`} className="multi-select-option-label">
-										{option.name}
-									</label>
-								</div>
+									<span className="multi-select-option-label">{option.name}</span>
+								</label>
 							))}
 						</div>
 					) : (

@@ -434,6 +434,17 @@ body {
 	background-color: var(--bg-primary);
 }
 
+.multi-select-trigger:focus {
+	border-color: var(--accent-primary);
+	outline: none;
+}
+
+.multi-select-trigger:focus-visible {
+	border-color: var(--accent-primary);
+	box-shadow: 0 0 0 3px var(--focus-ring);
+	outline: none;
+}
+
 .multi-select-value {
 	display: flex;
 	align-items: center;
@@ -1005,6 +1016,8 @@ body {
 	padding: 0.5rem;
 	z-index: 200;
 	animation: dropdownSlide 0.15s ease;
+	margin: 0;
+	min-inline-size: 0;
 }
 
 @keyframes dropdownSlide {

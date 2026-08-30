@@ -78,9 +78,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 				<form onSubmit={handleSubmit}>
 					<div className="modal-body">
 						<div className="form-group">
-							<label className="form-label" htmlFor="task-projects">
-								Projects
-							</label>
+							<div className="form-label">Projects</div>
 							<MultiSelect
 								id="task-projects"
 								options={projects}
