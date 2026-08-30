@@ -186,7 +186,8 @@ class Task(models.Model):
 | Sprint 1.4 | Backend Ruff Error Resolution | Feature 1: Backend import organization<br>Feature 2: Django class attribute lint corrections<br>Feature 3: Seed command and migration lint policy cleanup |
 | Sprint 2.0 | Project Resources & Task Filtering | Feature 1: Django Projects API and task many-to-many relationship<br>Feature 2: React project management, task tags, and project filtering |
 | Sprint 3.0 | Users, Assignees & Persisted Ordering | Feature 1: Backend users and frontend assignee selection<br>Feature 2: Persisted Kanban task ordering and precise drop placement |
-| Sprint 3.1 | Project Resources & Client routing| Feature 1: Configure wouter<br>Feature 2: Adding projects route and refactor project toggle |
+| Sprint 3.1 | Project Resources & Client routing | Feature 1: Configure wouter<br>Feature 2: Adding projects route and refactor project toggle |
+| Sprint 3.2 | UX Polish, Code Organization & Offline Resilience | Feature 1: Reusable confirm dialog replacing window.confirm (z-index above task modal)<br>Feature 2: Shared utils folder + API client and custom hooks extraction via codebase scan<br>Feature 3: Offline mutation queue in localStorage with optimistic UI and sequential FIFO sync |
 
 ### Implementation Strategy
 - Features are designed to be independent and modular.
