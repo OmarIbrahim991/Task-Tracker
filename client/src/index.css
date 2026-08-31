@@ -964,6 +964,121 @@ body {
 	gap: 0.75rem;
 }
 
+/* Confirm Dialog */
+.confirm-overlay {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1100;
+	background-color: var(--modal-overlay);
+	backdrop-filter: blur(4px);
+	padding: 1rem;
+}
+
+.confirm-dialog {
+	background: var(--bg-card);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	width: 100%;
+	max-width: 380px;
+	box-shadow: var(--shadow-lg);
+	animation: modalSlide 0.2s ease;
+	overflow: hidden;
+}
+
+.confirm-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 1.25rem;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.confirm-title {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--text-primary);
+}
+
+.confirm-body {
+	padding: 1.25rem;
+}
+
+.confirm-message {
+	color: var(--text-secondary);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.confirm-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.6rem;
+	padding: 1rem 1.25rem;
+	padding-top: 1rem;
+	background-color: var(--bg-column);
+	border-top: 1px solid var(--border-color);
+}
+
+.confirm-btn-danger {
+	background-color: #dc2626;
+	color: white;
+}
+
+.confirm-btn-danger:hover {
+	background-color: #b91c1c;
+}
+
+/* Offline Banner */
+.offline-banner {
+	position: sticky;
+	top: 57px;
+	z-index: 150;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.6rem 1rem;
+	font-size: 0.825rem;
+	font-weight: 600;
+	text-align: center;
+}
+
+.offline-banner-offline {
+	background-color: var(--priority-medium-bg);
+	color: var(--priority-medium-fg);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.offline-banner-syncing {
+	background-color: var(--accent-light);
+	color: var(--accent-primary);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.offline-banner-pending {
+	background-color: var(--priority-medium-bg);
+	color: var(--priority-medium-fg);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.offline-banner-spinner {
+	width: 14px;
+	height: 14px;
+	border: 2px solid currentColor;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: offlineSpin 0.7s linear infinite;
+}
+
+@keyframes offlineSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 @media (max-width: 640px) {
 	.project-create-form {
 		align-items: stretch;

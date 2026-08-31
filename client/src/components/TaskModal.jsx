@@ -2,14 +2,15 @@
 import { X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { projectApi, userApi } from "../services/api"
+import { COLUMNS, PRIORITIES, TASK_PRIORITIES, TASK_STATUSES } from "../utils/constants"
 import { MultiSelect } from "./MultiSelect"
 
 export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
-		priority: "MEDIUM",
-		status: "TODO",
+		priority: TASK_PRIORITIES[1],
+		status: TASK_STATUSES[0],
 		assignee: "",
 		project_ids: [],
 	})
@@ -39,8 +40,8 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 			setFormData({
 				title: taskToEdit.title || "",
 				description: taskToEdit.description || "",
-				priority: taskToEdit.priority || "MEDIUM",
-				status: taskToEdit.status || "TODO",
+				priority: taskToEdit.priority || TASK_PRIORITIES[1],
+				status: taskToEdit.status || TASK_STATUSES[0],
 				assignee: taskToEdit.assignee || "",
 				project_ids: taskToEdit.project_ids || taskToEdit.projects?.map((project) => project.id) || [],
 			})
@@ -48,8 +49,8 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 			setFormData({
 				title: "",
 				description: "",
-				priority: "MEDIUM",
-				status: "TODO",
+				priority: TASK_PRIORITIES[1],
+				status: TASK_STATUSES[0],
 				assignee: "",
 				project_ids: [],
 			})
@@ -132,10 +133,11 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 									value={formData.status}
 									onChange={(e) => setFormData({ ...formData, status: e.target.value })}
 								>
-									<option value="TODO">To Do</option>
-									<option value="IN_PROGRESS">In Progress</option>
-									<option value="REVIEW">Review</option>
-									<option value="DONE">Done</option>
+									{COLUMNS.map(({ id, title }) => (
+										<option key={id} value={id}>
+											{title}
+										</option>
+									))}
 								</select>
 							</div>
 
@@ -149,9 +151,11 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 									value={formData.priority}
 									onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
 								>
-									<option value="LOW">Low</option>
-									<option value="MEDIUM">Medium</option>
-									<option value="HIGH">High</option>
+									{PRIORITIES.map((obj) => (
+										<option key={obj.id} value={obj.id}>
+											{obj.title}
+										</option>
+									))}
 								</select>
 							</div>
 						</div>

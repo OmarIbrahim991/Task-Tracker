@@ -3,7 +3,9 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Route, Switch } from "wouter"
 import { KanbanBoard } from "./components/KanbanBoard"
 import { Navbar } from "./components/Navbar"
+import { OfflineBanner } from "./components/OfflineBanner"
 import { TaskModal } from "./components/TaskModal"
+import { OfflineQueueProvider } from "./context/OfflineQueueContext"
 import { ThemeProvider } from "./context/ThemeContext"
 import { ProjectsPage } from "./pages/ProjectsPage"
 import { projectApi } from "./services/api"
@@ -59,31 +61,34 @@ export default function App() {
 
 	return (
 		<ThemeProvider>
-			<div className="app-container">
-				<Navbar
-					onOpenNewTaskModal={handleOpenNewTaskModal}
-					projects={projects}
-					enabledProjectIds={enabledProjectIds}
-					onToggleProject={handleToggleProject}
-				/>
-				<Switch>
-					<Route path="/">
-						<KanbanBoard
-							onOpenModalWithTask={handleOpenEditTaskModal}
-							projects={projects}
-							enabledProjectIds={enabledProjectIds}
-							projectsLoading={projectsLoading}
-							registerSaveHandler={(fn) => {
-								saveHandlerRef.current = fn
-							}}
-						/>
-					</Route>
-					<Route path="/projects">
-						<ProjectsPage onProjectsRefresh={fetchProjects} />
-					</Route>
-				</Switch>
-				<TaskModal isOpen={isModalOpen} onClose={handleCloseModal} taskToEdit={taskToEdit} onSave={handleSaveModal} />
-			</div>
+			<OfflineQueueProvider>
+				<div className="app-container">
+					<Navbar
+						onOpenNewTaskModal={handleOpenNewTaskModal}
+						projects={projects}
+						enabledProjectIds={enabledProjectIds}
+						onToggleProject={handleToggleProject}
+					/>
+					<OfflineBanner />
+					<Switch>
+						<Route path="/">
+							<KanbanBoard
+								onOpenModalWithTask={handleOpenEditTaskModal}
+								projects={projects}
+								enabledProjectIds={enabledProjectIds}
+								projectsLoading={projectsLoading}
+								registerSaveHandler={(fn) => {
+									saveHandlerRef.current = fn
+								}}
+							/>
+						</Route>
+						<Route path="/projects">
+							<ProjectsPage onProjectsRefresh={fetchProjects} />
+						</Route>
+					</Switch>
+					<TaskModal isOpen={isModalOpen} onClose={handleCloseModal} taskToEdit={taskToEdit} onSave={handleSaveModal} />
+				</div>
+			</OfflineQueueProvider>
 		</ThemeProvider>
 	)
 }

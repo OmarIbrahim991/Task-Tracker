@@ -13,4 +13,4 @@ This file tracks the completion status of each sprint.
 | Sprint 2.0 | ✅ Complete | Implemented project CRUD, many-to-many task associations, project tags, and enabled-project filtering across the Django API and React Kanban board |
 | Sprint 3.0 | ✅ Complete | Add backend users and user-backed task assignees, plus persisted task ordering when cards are dropped after a specific task |
 | Sprint 3.1 | ✅ Complete | Configured Wouter routing with `/` and `/projects` routes, created dedicated projects management page with full CRUD, and refactored project controls to header-only toggle dropdown |
-| Sprint 3.2 | 🔄 In Progress | Replace window.confirm with z-index-aware confirm modal, extract utils/hooks reusable layer with API client, and implement offline mutation queue with sequential sync |
+| Sprint 3.2 | ✅ Complete | Replace window.confirm with z-index-aware confirm modal (ConfirmDialog z-index 1100 > modal 1000, a11y focus trap), extract utils/hooks layer (apiClient, constants, taskHelpers, useClickOutside, useApi) with consumer refactors, and implement offline mutation queue (localStorage FIFO, sequential sync, OfflineBanner) |
