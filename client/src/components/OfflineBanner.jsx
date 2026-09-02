@@ -34,7 +34,7 @@ export const OfflineBanner = () => {
 				<span>
 					{queue.length} pending {queue.length === 1 ? "change" : "changes"}
 				</span>
-				<button type="button" className="btn btn-secondary" onClick={syncQueue} style={{ padding: "0.2rem 0.6rem", fontSize: "0.75rem" }}>
+				<button type="button" className="btn btn-secondary btn-pending-retry" onClick={syncQueue}>
 					Retry sync
 				</button>
 			</div>

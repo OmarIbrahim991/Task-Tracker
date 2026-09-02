@@ -57,11 +57,10 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart, 
 		>
 			<div className="task-card-header">
 				<h4 className="task-title">{task.title}</h4>
-				<div style={{ display: "flex", gap: "0.25rem" }}>
+				<div className="task-card-actions">
 					<button
 						type="button"
-						className="btn btn-icon"
-						style={{ padding: "0.25rem", border: "none", background: "transparent" }}
+						className="btn btn-icon btn-ghost-sm"
 						onClick={(e) => {
 							e.stopPropagation()
 							onEdit(task)
@@ -72,8 +71,7 @@ export const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onDragStart, 
 					</button>
 					<button
 						type="button"
-						className="btn btn-danger-ghost"
-						style={{ padding: "0.25rem" }}
+						className="btn btn-danger-ghost btn-ghost-sm"
 						onClick={(e) => {
 							e.stopPropagation()
 							onDelete(task.id)
