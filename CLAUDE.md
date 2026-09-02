@@ -37,8 +37,8 @@ This document provides quick reference commands, project layout details, code fo
 
 ## 2. Formatting & Code Style Standards
 
-- **Frontend (`biome.json`)**: Biome-JS configured with tabs (tab width: 4), `semicolons: "asNeeded"` (no trailing semicolons unless required), trailing commas (`"all"`), print width `160`, and CRLF line endings (`\r\n`).
-- **Backend (`pyproject.toml`)**: Python Ruff / Black configured with tabs (tab width: 4), print width `160` (`line-length = 160`), trailing commas, and CRLF line endings (`\r\n`).
+- **Frontend (`client/biome.json`)**: Biome-JS configured with tabs (tab width: 4), `semicolons: "asNeeded"` (no trailing semicolons unless required), trailing commas (`"all"`), print width `160`, and CRLF line endings (`\r\n`).
+- **Backend (`backend/pyproject.toml`)**: Python Ruff / Black configured with tabs (tab width: 4), print width `160` (`line-length = 160`), trailing commas, and CRLF line endings (`\r\n`).
 
 ---
 
@@ -68,16 +68,16 @@ Tasks may reference zero or many projects through `project_ids`. Task responses 
 Task Tracker/
 ├── backend/                  # Django REST Framework backend
 │   ├── core/                 # Django settings, wsgi, asgi, urls
-│   └── tasks/                # Tasks app (Model, Serializer, ViewSet, Seed command)
+│   ├── tasks/                # Tasks app (Model, Serializer, ViewSet, Seed command)
+│   └── pyproject.toml        # Python formatter & linter config for Django backend
 ├── client/                   # React frontend
 │   ├── public/               # Static assets, favicon, manifest.webmanifest, sw.js
+│   ├── biome.json            # Biome-JS linter & formatter config for React client
 │   └── src/
 │       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar, ProjectManager
 │       ├── context/          # ThemeContext (Dark / Light mode)
 │       └── services/         # REST API service client
 ├── docs/                     # Project blueprint, sprint plans, and progress log
-├── biome.json                # Biome-JS linter & formatter config for React client
-├── pyproject.toml            # Python formatter & linter config for Django backend
 ├── AGENTS.md                 # Agent guidelines and architectural constraints
 ├── CLAUDE.md                 # CLI & quick reference guide
 └── README.md                 # Comprehensive project README

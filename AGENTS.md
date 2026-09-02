@@ -54,14 +54,14 @@ Task Tracker is a decoupled FullStack task management web application consisting
 
 ## 3. Formatting & Code Style Standards
 
-### Frontend (Biome-JS — `biome.json`)
+### Frontend (Biome-JS — `client/biome.json`)
 - **Indentation**: Tabs (tab width: 4 spaces equivalent).
 - **Semicolons**: `"asNeeded"` (no semicolons unless necessary).
 - **Trailing Commas**: `"all"` (enabled for multi-line objects/arrays).
 - **Line Length**: 160 characters max.
 - **Line Endings**: CRLF (`\r\n`).
 
-### Backend (Python — `pyproject.toml`)
+### Backend (Python — `backend/pyproject.toml`)
 - **Indentation**: Tabs (tab width: 4 spaces equivalent).
 - **Line Length**: 160 characters max (`line-length = 160`).
 - **Line Endings**: CRLF (`\r\n`).
@@ -132,16 +132,16 @@ Task create/update payloads may include `project_ids: []` or a list of project I
 Task Tracker/
 ├── backend/                  # Django REST Framework backend
 │   ├── core/                 # Django settings, wsgi, asgi, urls
-│   └── tasks/                # Tasks app (Model, Serializer, ViewSet, Seed command)
+│   ├── tasks/                # Tasks app (Model, Serializer, ViewSet, Seed command)
+│   └── pyproject.toml        # Python formatter & linter config for Django backend
 ├── client/                   # React frontend
 │   ├── public/               # Static assets, favicon, manifest.webmanifest, sw.js
+│   ├── biome.json            # Biome-JS linter & formatter config for React client
 │   └── src/
 │       ├── components/       # KanbanBoard, KanbanColumn, TaskCard, TaskModal, Navbar, ProjectManager
 │       ├── context/          # ThemeContext (Dark / Light mode)
 │       └── services/         # REST API service client
 ├── docs/                     # Project blueprint, sprint plans, and progress log
-├── biome.json                # Biome-JS linter & formatter config for React client
-├── pyproject.toml            # Python formatter & linter config for Django backend
 ├── AGENTS.md                 # Agent guidelines, architecture, and workflows
 ├── CLAUDE.md                 # CLI & quick reference guide
 └── README.md                 # Comprehensive project README

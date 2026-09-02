@@ -23,27 +23,27 @@ Task Tracker is a modern, responsive full-stack task management application feat
 - ⚡ **Optimistic UI Updates**: Immediate client state updates with REST API synchronization.
 - 📱 **Progressive Web App (PWA)**: Standalone web app installation and Service Worker static caching.
 - 🚀 **RESTful Django API**: Django REST Framework backend with SQLite database and initial seed scripts.
-- 🧹 **Code Quality & Formatting**: Configured with **Biome-JS** (`biome.json`) for frontend linting/formatting and **`pyproject.toml`** for Python backend formatting (line length 160, tabs/4 spaces, no semicolons unless required).
+- 🧹 **Code Quality & Formatting**: Configured with **Biome-JS** (`client/biome.json`) for frontend linting/formatting and **`backend/pyproject.toml`** for Python backend formatting (line length 160, tabs/4 spaces, no semicolons unless required).
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Python 3.10+, Django 5.x, Django REST Framework 3.15+, `django-cors-headers`, SQLite, `pyproject.toml`.
-- **Frontend**: React 18/19, Vite, Wouter (routing), `pnpm`, Biome-JS (`biome.json`), Lucide React (icons), Vanilla CSS Design System.
+- **Backend**: Python 3.10+, Django 5.x, Django REST Framework 3.15+, `django-cors-headers`, SQLite, `backend/pyproject.toml`.
+- **Frontend**: React 18/19, Vite, Wouter (routing), `pnpm`, Biome-JS (`client/biome.json`), Lucide React (icons), Vanilla CSS Design System.
 - **PWA & Branding**: Web App Manifest (`manifest.webmanifest`), Service Worker (`sw.js`), Custom SVG/ICO Favicons.
 
 ---
 
 ## ⚙️ Formatting & Code Style Standards
 
-- **Frontend (`biome.json`)**: Formatted using Biome-JS:
+- **Frontend (`client/biome.json`)**: Formatted using Biome-JS:
   - Indent: Tabs (width = 4 spaces equivalent)
   - Semicolons: `"asNeeded"` (no semicolons unless required)
   - Trailing Commas: `"all"`
   - Line Width: `160`
   - Line Endings: `CRLF` (`\r\n`)
-- **Backend (`pyproject.toml`)**: Formatted using Ruff:
+- **Backend (`backend/pyproject.toml`)**: Formatted using Ruff:
   - Indent: Tabs (width = 4 spaces equivalent)
   - Line Length: `160`
   - Line Endings: `CRLF` (`\r\n`)
