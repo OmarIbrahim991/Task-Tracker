@@ -9,7 +9,6 @@ import { getVisibleTasks, withProjectDetails } from "../utils/taskHelpers"
 import { ConfirmDialog } from "./ConfirmDialog"
 import { KanbanColumn } from "./KanbanColumn"
 
-const INITIAL_LOCAL_TASKS = []
 
 export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, projects, enabledProjectIds, projectsLoading }) => {
 	const [tasks, setTasks] = useState([])
@@ -26,7 +25,7 @@ export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, projects
 			setUseFallback(false)
 		} catch (err) {
 			console.info("Using local state fallback while backend server connects...")
-			setTasks(INITIAL_LOCAL_TASKS)
+			setTasks([])
 			setUseFallback(true)
 		} finally {
 			setLoading(false)

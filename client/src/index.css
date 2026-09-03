@@ -648,6 +648,18 @@ body {
 	border-radius: 50%;
 	background-color: var(--dot-color, var(--status-todo));
 }
+.column-todo {
+	--dot-color: var(--status-todo);
+}
+.column-in_progress {
+	--dot-color: var(--status-in_progress);
+}
+.column-review {
+	--dot-color: var(--status-review);
+}
+.column-done {
+	--dot-color: var(--status-done);
+}
 .column-title {
 	font-size: 0.95rem;
 	font-weight: 700;

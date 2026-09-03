@@ -31,7 +31,7 @@ export const KanbanColumn = ({ column, tasks, onEditTask, onDeleteTask, onStatus
 		<div className={`kanban-column ${isDragOver ? "drag-over" : ""}`} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
 			<div className="column-header">
 				<div className="column-title-group">
-					<span className="column-dot" style={{ "--dot-color": column.color }} />
+					<span className={`column-dot ${column.className}`} />
 					<h3 className="column-title">{column.title}</h3>
 				</div>
 				<span className="column-count">{tasks.length}</span>
