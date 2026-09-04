@@ -997,6 +997,50 @@ body {
 	color: var(--accent-primary);
 	font-weight: 600;
 }
+/* Sync Indicator */
+.sync-indicator {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	padding: var(--space-xs) 0.85rem;
+	border-radius: var(--radius-pill);
+	font-size: 0.8rem;
+	font-weight: 500;
+	animation: fadeIn 0.2s ease;
+}
+.sync-indicator.syncing {
+	background-color: var(--accent-light);
+	color: var(--accent-primary);
+	border: 1px solid var(--border-active);
+}
+.sync-indicator.saved {
+	background-color: var(--priority-low-bg);
+	color: var(--priority-low-fg);
+	border: 1px solid var(--priority-low-fg);
+}
+.sync-indicator.offline {
+	background-color: var(--priority-medium-bg);
+	color: var(--priority-medium-fg);
+	border: 1px solid var(--priority-medium-fg);
+}
+.sync-spinner {
+	animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
 /* Project Toggle Dropdown */
 .project-dropdown {
 	position: relative;
