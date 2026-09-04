@@ -15,3 +15,5 @@ This file tracks the completion status of each sprint.
 | Sprint 3.1 | ✅ Complete | Configured Wouter routing with `/` and `/projects` routes, created dedicated projects management page with full CRUD, and refactored project controls to header-only toggle dropdown |
 | Sprint 3.2 | ✅ Complete | Replace window.confirm with z-index-aware confirm modal (ConfirmDialog z-index 1100 > modal 1000, a11y focus trap), extract utils/hooks layer (apiClient, constants, taskHelpers, useClickOutside, useApi) with consumer refactors, and implement offline mutation queue (localStorage FIFO, sequential sync, OfflineBanner) |
 | Sprint 3.3 | ✅ Complete | Corrected docs config paths to `client/biome.json` and `backend/pyproject.toml`, added 20–2000 ms random API latency via apiClient, and refactored `index.css` with design-system tokens plus inline-style removal |
+| Sprint 3.4 | ✅ Complete | Comprehensive backend test coverage (User API, Task CRUD/validation, reordering logic, seed command) and persistent UI during task operations with real-time backend sync status indicator |
+

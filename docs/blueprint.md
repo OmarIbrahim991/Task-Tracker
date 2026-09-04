@@ -189,6 +189,8 @@ class Task(models.Model):
 | Sprint 3.1 | Project Resources & Client routing | Feature 1: Configure wouter<br>Feature 2: Adding projects route and refactor project toggle |
 | Sprint 3.2 | UX Polish, Code Organization & Offline Resilience | Feature 1: Reusable confirm dialog replacing window.confirm (z-index above task modal)<br>Feature 2: Shared utils folder + API client and custom hooks extraction via codebase scan<br>Feature 3: Offline mutation queue in localStorage with optimistic UI and sequential FIFO sync |
 | Sprint 3.3 | Docs Accuracy, API Realism & CSS Design System | Feature 1: Correct docs to reference `client/biome.json` and `backend/pyproject.toml` (remove stale root paths)<br>Feature 2: Random API latency 20–2000 ms via `apiClient` sleep wrapper<br>Feature 3: Refactor `index.css` with spacing/radius/z-index tokens and inline-style removal |
+| Sprint 3.4 | Backend Testing & UI Sync State | Feature 1: Comprehensive backend test cases suite (Users, Task CRUD, reordering, validation, seed)<br>Feature 2: Persistent UI during task moves/updates with real-time backend sync status indicator |
+
 
 ### Implementation Strategy
 - Features are designed to be independent and modular.
