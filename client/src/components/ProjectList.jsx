@@ -3,7 +3,12 @@ import { Trash2 } from "lucide-react"
 
 export const ProjectList = ({ projects, onDelete }) => {
 	if (projects.length === 0) {
-		return <p className="project-message">No projects yet</p>
+		return (
+			<section className="projects-empty-state" aria-labelledby="projects-empty-title">
+				<h3 id="projects-empty-title">No projects yet</h3>
+				<p>Use the form above to create your first project.</p>
+			</section>
+		)
 	}
 
 	return (

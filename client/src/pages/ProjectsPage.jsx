@@ -98,18 +98,24 @@ export const ProjectsPage = ({ onProjectsRefresh }) => {
 				</Link>
 			</div>
 
-			<CreateProjectForm onCreate={handleCreate} />
-
-			{loading && <p className="project-message">Loading projects...</p>}
-			{error && (
+			{loading ? (
+				<output className="projects-loading">
+					<div className="projects-loading-spinner" aria-hidden="true" />
+					<span>Loading projects...</span>
+				</output>
+			) : error ? (
 				<div className="project-message project-error" role="alert">
 					<span>{error}</span>
 					<button type="button" className="btn btn-secondary" onClick={fetchProjects}>
 						Retry
 					</button>
 				</div>
+			) : (
+				<>
+					<CreateProjectForm onCreate={handleCreate} />
+					<ProjectList projects={projects} onDelete={handleDelete} />
+				</>
 			)}
-			{!loading && !error && <ProjectList projects={projects} onDelete={handleDelete} />}
 			<ConfirmDialog
 				isOpen={confirmProjectId !== null}
 				title="Delete project?"

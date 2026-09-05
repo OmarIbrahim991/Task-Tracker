@@ -4,13 +4,19 @@ import { useState } from "react"
 
 export const CreateProjectForm = ({ onCreate }) => {
 	const [projectName, setProjectName] = useState("")
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
 		const name = projectName.trim()
 		if (!name) return
-		const created = await onCreate(name)
-		if (created) setProjectName("")
+		setIsSubmitting(true)
+		try {
+			const created = await onCreate(name)
+			if (created) setProjectName("")
+		} finally {
+			setIsSubmitting(false)
+		}
 	}
 
 	return (
@@ -25,10 +31,11 @@ export const CreateProjectForm = ({ onCreate }) => {
 				placeholder="New project name"
 				value={projectName}
 				onChange={(event) => setProjectName(event.target.value)}
+				disabled={isSubmitting}
 			/>
-			<button type="submit" className="btn btn-primary" disabled={!projectName.trim()}>
+			<button type="submit" className="btn btn-primary" disabled={isSubmitting || !projectName.trim()}>
 				<Plus size={16} />
-				<span>Add project</span>
+				<span>{isSubmitting ? "Adding…" : "Add project"}</span>
 			</button>
 		</form>
 	)
