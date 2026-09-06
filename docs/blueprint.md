@@ -121,16 +121,23 @@ The application follows a decoupled Client-Server architecture:
 ### Technology Stack
 - **Backend**:
   - Python 3.10+
-  - Django 5.x
-  - Django REST Framework (DRF) 3.15+
-  - `django-cors-headers`
+  - Django 6.1.1
+  - Django REST Framework (DRF) 3.18.0
+  - `django-cors-headers` 4.9.0
+  - `asgiref` 3.12.1
+  - `sqlparse` 0.6.0
+  - `tzdata` 2026.3
   - SQLite (default embedded DB)
+  - Django Test Runner (`backend/tasks/tests.py`)
 - **Frontend**:
-  - React 18/19 (latest)
-  - Vite (build tool & dev server)
+  - React 19.2.8 & React DOM 19.2.8
+  - Vite 8.2.2 (`@vitejs/plugin-react` 6.1.1)
   - `pnpm` (package manager)
-  - Wouter (routing)
-  - Lucide React (icons)
+  - Wouter 3.11.0 (routing)
+  - Lucide React 1.41.0 (icons)
+  - Biome-JS 1.9.4 (`client/biome.json`)
+  - Vitest 5.0.0 & JSDOM 30.0.1
+  - React Testing Library 16.3.3 (`@testing-library/react`), `@testing-library/jest-dom` 7.0.1, `@testing-library/user-event` 14.6.7
   - Vanilla CSS with CSS Custom Properties (Theme Design System)
 
 ### Data Model

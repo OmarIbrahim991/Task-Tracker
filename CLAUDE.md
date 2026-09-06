@@ -20,6 +20,7 @@ This document provides quick reference commands, project layout details, code fo
 
 ### Backend Commands (Django REST Framework)
 - **Start Backend API**: `python backend/manage.py runserver 8000`
+- **Run Automated Tests**: `python backend/manage.py test tasks`
 - **Run Migrations**: `python backend/manage.py migrate`
 - **Make Migrations**: `python backend/manage.py makemigrations`
 - **Seed Sample Tasks**: `python backend/manage.py seed_tasks`
@@ -28,6 +29,7 @@ This document provides quick reference commands, project layout details, code fo
 
 ### Frontend Commands (React + Vite + pnpm)
 - **Start Client Dev Server**: `cd client && pnpm dev`
+- **Run Automated Tests**: `cd client && pnpm test:run` (or `pnpm test` for watch mode)
 - **Build Client for Production**: `cd client && pnpm build`
 - **Preview Production Build**: `cd client && pnpm preview`
 - **Biome Linter / Formatter Check**: `cd client && pnpm check`

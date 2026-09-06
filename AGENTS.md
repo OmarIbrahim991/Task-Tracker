@@ -92,6 +92,7 @@ Every new file must start with a header comment:
 python backend/manage.py migrate
 python backend/manage.py makemigrations
 python backend/manage.py seed_tasks
+python backend/manage.py test tasks    # Run backend test suite
 python backend/manage.py runserver 8000
 python backend/manage.py shell
 ruff format backend/  # or: black backend/
@@ -104,6 +105,8 @@ pnpm install
 pnpm dev
 pnpm build
 pnpm preview
+pnpm test:run   # Single vitest run
+pnpm test       # Vitest watch mode
 pnpm check      # Biome-JS linter & formatter check
 pnpm format     # Biome-JS format write
 ```

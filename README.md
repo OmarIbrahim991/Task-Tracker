@@ -29,8 +29,11 @@ Task Tracker is a modern, responsive full-stack task management application feat
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Python 3.10+, Django 5.x, Django REST Framework 3.15+, `django-cors-headers`, SQLite, `backend/pyproject.toml`.
-- **Frontend**: React 18/19, Vite, Wouter (routing), `pnpm`, Biome-JS (`client/biome.json`), Lucide React (icons), Vanilla CSS Design System.
+- **Backend**: Python 3.10+, Django 6.1.1, Django REST Framework 3.18.0, `django-cors-headers` 4.9.0, `asgiref` 3.12.1, `sqlparse` 0.6.0, `tzdata` 2026.3, SQLite, `backend/pyproject.toml`.
+- **Frontend**: React 19.2.8, React DOM 19.2.8, Vite 8.2.2 (`@vitejs/plugin-react` 6.1.1), Wouter 3.11.0 (routing), Lucide React 1.41.0 (icons), `pnpm` (package manager), Biome-JS 1.9.4 (`client/biome.json`), Vanilla CSS Design System.
+- **Testing**:
+  - **Backend**: Django Test Runner & Django REST Framework APITestCase (`backend/tasks/tests.py`).
+  - **Frontend**: Vitest 5.0.0, JSDOM 30.0.1, React Testing Library 16.3.3 (`@testing-library/react`), Jest DOM 7.0.1 (`@testing-library/jest-dom`), User Event 14.6.7 (`@testing-library/user-event`).
 - **PWA & Branding**: Web App Manifest (`manifest.webmanifest`), Service Worker (`sw.js`), Custom SVG/ICO Favicons.
 
 ---
@@ -88,6 +91,9 @@ python manage.py migrate
 # Seed sample tasks into SQLite database
 python manage.py seed_tasks
 
+# Run backend automated tests
+python manage.py test tasks
+
 # Start Django backend server (runs at http://127.0.0.1:8000)
 python manage.py runserver 8000
 ```
@@ -106,12 +112,46 @@ pnpm install
 # Start Vite React development server (runs at http://localhost:3000)
 pnpm dev
 
+# Run client automated tests with Vitest
+pnpm test:run     # Single test run
+pnpm test         # Watch mode
+
 # Check linter and formatter rules using Biome
 pnpm check
 
 # Format frontend code automatically with Biome
 pnpm format
 ```
+
+---
+
+## 🧪 Testing
+
+Both backend and client include dedicated automated test suites:
+
+### Backend Testing (Django & DRF APITestCase)
+- **Framework**: Django Test Runner + `rest_framework.test.APITestCase`
+- **Location**: `backend/tasks/tests.py`
+- **Coverage**: Project CRUD, unique constraints, task many-to-many project associations, invalid ID handling, task reordering / position shifting, seed command execution, and user creation validation.
+- **Running tests**:
+  ```bash
+  # From workspace root (with virtual environment activated):
+  python backend/manage.py test tasks
+
+  # Or from backend/ directory:
+  python manage.py test tasks
+  ```
+
+### Client Testing (Vitest + React Testing Library)
+- **Framework**: Vitest 5.0+, JSDOM, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`
+- **Location**: `client/src/**/*.test.jsx` (e.g. `ProjectsPage.test.jsx`, `Navbar.test.jsx`, `CreateProjectForm.test.jsx`) and `client/src/test/setup.js`
+- **Coverage**: Project management workflows (loading state, error retries, project creation, deletion with confirm dialog), route-aware navigation in `Navbar`, input validation, and pending submission states.
+- **Running tests**:
+  ```bash
+  # From client/ directory:
+  pnpm test:run   # Single execution for CI / local checks
+  pnpm test       # Interactive watch mode
+  ```
 
 ---
 
