@@ -196,7 +196,7 @@ export const KanbanBoard = ({ onOpenModalWithTask, registerSaveHandler, projects
 
 	const handleSaveTask = useCallback(
 		async (formData) => {
-			const existingTask = tasks.find((t) => t.title === formData.title && t.id)
+			const existingTask = formData.id ? tasks.find((t) => t.id === formData.id) : null
 			if (existingTask) {
 				const updatedTasks = tasks.map((task) =>
 					task.id === existingTask.id ? withProjectDetails({ ...task, ...formData }, formData.project_ids, projects) : task,

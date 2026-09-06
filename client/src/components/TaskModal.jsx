@@ -38,6 +38,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit }) => {
 	useEffect(() => {
 		if (taskToEdit) {
 			setFormData({
+				id: taskToEdit.id,
 				title: taskToEdit.title || "",
 				description: taskToEdit.description || "",
 				priority: taskToEdit.priority || TASK_PRIORITIES[1],
