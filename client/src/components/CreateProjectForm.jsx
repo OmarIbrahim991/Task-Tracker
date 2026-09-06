@@ -2,7 +2,7 @@
 import { Plus } from "lucide-react"
 import { useState } from "react"
 
-export const CreateProjectForm = ({ onCreate }) => {
+export const CreateProjectForm = ({ onCreate, inputId = "create-project-name" }) => {
 	const [projectName, setProjectName] = useState("")
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -21,11 +21,11 @@ export const CreateProjectForm = ({ onCreate }) => {
 
 	return (
 		<form className="project-create-form" onSubmit={handleSubmit}>
-			<label className="sr-only" htmlFor="create-project-name">
+			<label className="sr-only" htmlFor={inputId}>
 				Project name
 			</label>
 			<input
-				id="create-project-name"
+				id={inputId}
 				type="text"
 				className="form-input"
 				placeholder="New project name"
