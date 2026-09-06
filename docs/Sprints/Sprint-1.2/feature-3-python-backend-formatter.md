@@ -18,7 +18,7 @@ target-version = "py310"
 indent-style = "space"
 quote-style = "single"
 skip-magic-trailing-comma = false
-line-ending = "crlf"
+line-ending = "lf"
 
 [tool.black]
 line-length = 160
@@ -28,10 +28,10 @@ skip-string-normalization = false
 
 ### Step-by-Step Implementation
 1. Create `pyproject.toml` in project root.
-2. Format Python files in `backend/` according to the 4-space, trailing-comma, CRLF newline standard.
+2. Format Python files in `backend/` according to the 4-space, trailing-comma, LF newline standard.
 
 ## Acceptance Criteria
-- [ ] `pyproject.toml` exists in project root configuring Python formatting rules (4 spaces, trailing commas, CRLF line endings).
+- [ ] `pyproject.toml` exists in project root configuring Python formatting rules (4 spaces, trailing commas, LF line endings).
 - [ ] Backend code in `backend/` adheres to Python formatting standards.
 
 ## Dependencies

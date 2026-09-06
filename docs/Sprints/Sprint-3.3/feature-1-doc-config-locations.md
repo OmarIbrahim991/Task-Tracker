@@ -16,7 +16,7 @@ No UI components. Documentation-only feature:
 
 - **`AGENTS.md`** — update two places:
   - Section `## 4. Useful Development Commands / Environment & Configuration Locations` bullets: change `- **Backend formatter and linter**: `backend/pyproject.toml`` (already correct but heading says `biome.json` at `client/biome.json` vs stale `biome.json`) and ensure frontend bullet reads `client/biome.json` not `biome.json`; verify no duplicate root entries.
-  - Section `## 6. Project Structure` tree: replace `├── biome.json` / `├── pyproject.toml` root entries with `│   ├── biome.json` under `client/` and `│   ├── pyproject.toml` under `backend/` (or explicit `client/biome.json` / `backend/pyproject.toml` rows). Keep CRLF, tabs, line width 160.
+   - Section `## 6. Project Structure` tree: replace `├── biome.json` / `├── pyproject.toml` root entries with `│   ├── biome.json` under `client/` and `│   ├── pyproject.toml` under `backend/` (or explicit `client/biome.json` / `backend/pyproject.toml` rows). Keep LF, tabs, line width 160.
 - **`CLAUDE.md`** — same corrections:
   - `## 1. Quick Commands / Environment & Configuration Locations` bullets for formatter/linter paths.
   - `## 4. Project Structure` ascii tree.
@@ -76,7 +76,7 @@ No backend change. Verification is file-system and text-search based. Optional h
 - [ ] `Select-String -Pattern "biome\.json|pyproject\.toml"` across docs shows only qualified `client/biome.json` / `backend/pyproject.toml` paths (or bare names only inside the qualified headings' parenthetical).
 - [ ] `Test-Path "client/biome.json"` and `Test-Path "backend/pyproject.toml"` remain true; no new `biome.json` or `pyproject.toml` created at repo root.
 - [ ] `cd client && pnpm check` and `ruff format backend/` (or `ruff check`) still pass — docs change only, no toolchain break.
-- [ ] All edited markdown preserves `CRLF` line endings, tabs, and header comment style per `AGENTS.md` formatting rules.
+- [ ] All edited markdown preserves `LF` line endings, tabs, and header comment style per `AGENTS.md` formatting rules.
 
 ## Dependencies
 - **Internal**: None — documentation only, independent of `feature-2-api-random-delay` and `feature-3-index-css-refactor`. Can land in parallel.

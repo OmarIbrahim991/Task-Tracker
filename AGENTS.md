@@ -59,12 +59,12 @@ Task Tracker is a decoupled FullStack task management web application consisting
 - **Semicolons**: `"asNeeded"` (no semicolons unless necessary).
 - **Trailing Commas**: `"all"` (enabled for multi-line objects/arrays).
 - **Line Length**: 160 characters max.
-- **Line Endings**: CRLF (`\r\n`).
+- **Line Endings**: LF (`\n`).
 
 ### Backend (Python — `backend/pyproject.toml`)
 - **Indentation**: Tabs (tab width: 4 spaces equivalent).
 - **Line Length**: 160 characters max (`line-length = 160`).
-- **Line Endings**: CRLF (`\r\n`).
+- **Line Endings**: LF (`\n`).
 
 ### File Header Comments
 Every new file must start with a header comment:

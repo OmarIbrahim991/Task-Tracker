@@ -35,7 +35,7 @@ No new visual components; refactor existing ones:
   - Unify `.offline-banner-offline` / `.offline-banner-pending` (identical amber styling) into a single amber variant or grouped selector `.offline-banner-offline, .offline-banner-pending { background: var(--priority-medium-bg); ... }`.
   - Consolidate button base: already `.btn` covers most; remove per-instance `padding:0.25rem` overrides by adding utility classes (see below) instead of duplicating.
   - Deduplicate `.project-tag` / `.multi-select-tag` / `.stat-pill` shared pill base where colors differ.
-  - Keep theme variables, transitions, and `CRLF`/`tab` formatting; do not introduce CSS preprocessors or new dependencies.
+  - Keep theme variables, transitions, and `LF`/`tab` formatting; do not introduce CSS preprocessors or new dependencies.
 - **`client/src/components/KanbanColumn.jsx:34`** — remove `style={{ backgroundColor: column.color }}`:
   - Add class `.column-dot-accent` with modifier via CSS variable: render `<span className="column-dot" style={{ "--dot-color": column.color } as React.CSSProperties}` and CSS `.column-dot { background-color: var(--dot-color, var(--accent-primary)); }`, OR add data attribute `data-color={column.color}` with inline variable. Prefer CSS-custom-property over inline `backgroundColor` to eliminate style prop while preserving dynamic per-column color from `COLUMNS` (`client/src/utils/constants.js`).
   - Minimal alternative approved: keep one CSS-variable inline (`style={{ "--dot-color": column.color }}`) if fully eliminating inline is argued as unavoidable for dynamic color; document trade-off.
@@ -73,7 +73,7 @@ No backend change. This is a stylesheet/components refactor only; no API contrac
 ### Step-by-Step Implementation
 1. **Audit baseline**: Record `wc -l client/src/index.css` (1225), `Select-String -Pattern "style=" -Path client/src/**/*.jsx` (5 hits across 3 files), and count of `z-index:` literals (`Select-String -Pattern "z-index" -Path client/src/index.css` — currently 5 distinct values: 100,150,200,1000,1100) plus `border-radius:` unique values and `gap:` unique values. Snapshot before screenshots or note expected unchanged visuals.
 2. **Design tokens**: At top of `client/src/index.css:3` inside `:root`, add grouped comment blocks `/* Spacing */`, `/* Radius */`, `/* Z-index */`, `/* Transitions */` and define the variables listed above. Mirror only theme-specific colors in `[data-theme="dark"]`; spacing/radius/z tokens stay in `:root` only (shared).
-3. **Token replacement pass** (search-replace, keep tabs/CRLF):
+3. **Token replacement pass** (search-replace, keep tabs/LF):
    - Replace each literal `z-index: 100` → `z-index: var(--z-navbar)`, `150` → `var(--z-banner)`, `200` → `var(--z-dropdown)`, `1000` → `var(--z-modal)`, `1100` → `var(--z-confirm)`.
    - Replace each literal `padding: 0.25rem` / `gap: 0.25rem` → `var(--space-2xs)`, `0.35rem`→`var(--space-xs)`, `0.4rem`→`var(--space-xs)`, `0.5rem`→`var(--space-sm)`, `0.6rem`→`var(--space-sm)`, `0.75rem`→`var(--space-md)`, `1rem`→`var(--space-lg)`, `1.5rem`→`var(--space-xl)`, etc., applying consistently.
    - Replace each literal `border-radius: 6px`→`var(--radius-sm)`, `8px`→`var(--radius-md)`, `10px`→`var(--radius-lg)`, `12px`→`var(--radius-xl)`, `16px`→`var(--radius-2xl)`, `999px`→`var(--radius-pill)`.
