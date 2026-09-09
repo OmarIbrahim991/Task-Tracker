@@ -17,4 +17,5 @@ This file tracks the completion status of each sprint.
 | Sprint 3.3 | ✅ Complete | Corrected docs config paths to `client/biome.json` and `backend/pyproject.toml`, added 20–2000 ms random API latency via apiClient, and refactored `index.css` with design-system tokens plus inline-style removal |
 | Sprint 3.4 | ✅ Complete | Comprehensive backend test coverage (User API, Task CRUD/validation, reordering logic, seed command) and persistent UI during task operations with real-time backend sync status indicator |
 | Sprint 4.0 | ✅ Complete | Vitest + React Testing Library coverage, Projects page UI improvements, task duplication with editable copy modal, and drag-and-drop flickering fix for optimistic reordering |
+| Sprint 4.1 | ✅ Complete | Added Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only within the container |
 

@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: task-tracker:latest
+    container_name: task-tracker
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/db.sqlite3:/app/backend/db.sqlite3
+    restart: unless-stopped

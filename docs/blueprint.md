@@ -198,6 +198,7 @@ class Task(models.Model):
 | Sprint 3.3 | Docs Accuracy, API Realism & CSS Design System | Feature 1: Correct docs to reference `client/biome.json` and `backend/pyproject.toml` (remove stale root paths)<br>Feature 2: Random API latency 20–2000 ms via `apiClient` sleep wrapper<br>Feature 3: Refactor `index.css` with spacing/radius/z-index tokens and inline-style removal |
 | Sprint 3.4 | Backend Testing & UI Sync State | Feature 1: Comprehensive backend test cases suite (Users, Task CRUD, reordering, validation, seed)<br>Feature 2: Persistent UI during task moves/updates with real-time backend sync status indicator |
 | Sprint 4.0 | Client Testing, Projects & DnD Stability | Feature 1: Vitest and React Testing Library client test suite<br>Feature 2: Projects page navigation, loading state, and responsive UI polish<br>Feature 3: Duplicate a task into a pre-filled, editable copy modal (reuses POST /tasks/)<br>Feature 4: Remove post-drop board refetch to eliminate flicker during rapid drag-and-drop moves |
+| Sprint 4.1 | Deployment & Containerization | Feature 1: Add Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only |
 
 
 ### Implementation Strategy

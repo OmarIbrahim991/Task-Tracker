@@ -100,7 +100,23 @@ python manage.py runserver 8000
 
 ---
 
-### 2. Setup Frontend (React + Vite)
+### 2. Docker Deployment
+
+The repository now includes a root-level `Dockerfile` that builds the client and packages the Django API into a single image. The container exposes the client on port `8080`, while the backend remains internal-only at `127.0.0.1:8000` inside the container.
+
+```bash
+# Build the image
+docker build -t task-tracker .
+
+# Run the container
+docker run --rm -p 8080:8080 task-tracker
+```
+
+The client uses a same-origin `/api` base URL by default, which is routed internally by nginx to the Django backend. For local development, the Vite dev server also proxies `/api` to `http://127.0.0.1:8000`.
+
+---
+
+### 3. Setup Frontend (React + Vite)
 
 ```bash
 # Navigate to client directory
