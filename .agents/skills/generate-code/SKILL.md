@@ -91,6 +91,8 @@ After all sub-agents complete:
 - Verify that the generated code follows the formatter config by running the project's
   formatter if available (e.g., `npx prettier --check`), but do **not** install any
   new tools to do this.
+- If needed, update the blueprint plans as needed to reflect any changes made during implementation.
+- If needed, update the documents of the project (e.g., README.md, AGENTS.md, CLAUDE.md) to reflect the new features.
 
 ### 6. Update Progress
 
@@ -116,3 +118,6 @@ All sub-agents must follow these rules when generating code:
   vs spaces), semicolons, quote style, trailing commas, line width, etc.
 - **Consistent with existing code** — Match the patterns, naming conventions, and
   directory structure already present in the project.
+- **Keep documentation in sync** — When implementation changes the app’s behavior,
+  architecture, or workflows, update the relevant project docs (for example
+  `README.md`, `AGENTS.md`, or `CLAUDE.md`) as needed.
