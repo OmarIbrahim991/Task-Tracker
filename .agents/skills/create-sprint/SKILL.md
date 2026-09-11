@@ -4,8 +4,10 @@ description: >-
   Use this skill when the user invokes /create_sprint. It handles two workflows:
   (1) When the user provides project requirements, generate a blueprint.md containing
   a Product Requirements Document and Technical Breakdown. (2) When the user provides
-  no requirements or asks for a new sprint, generate a sprint folder with implementation
-  plans for up to 3 independent features. All documents are placed under the docs/ folder.
+  no requirements or asks for a new sprint, generate sprint folders with implementation
+  plans for ALL remaining features. Features are batched into groups of up to 3 per
+  sprint folder, creating consecutive sprints (e.g. Sprint 6.0, Sprint 6.1, Sprint 6.2)
+  when there are more than 3 features. All documents are placed under the docs/ folder.
 ---
 
 # Create Sprint Skill
@@ -25,8 +27,10 @@ docs/
 ├── progress.md               # Tracks completed sprints
 └── Sprints/
     ├── Sprint-0.0/           # Initial planning sprint
-    ├── Sprint-1.0/           # First implementation sprint
-    │   └── feature-N-name.md # One file per feature (max 3)
+    ├── Sprint-1.0/           # First batch of features
+    │   └── feature-N-name.md # One file per feature (up to 3 per sprint)
+    ├── Sprint-1.1/           # Second batch (if >3 features)
+    │   └── feature-N-name.md
     └── ...
 ```
 
@@ -36,8 +40,9 @@ docs/
 
 | Scenario | Rule | Example |
 |---|---|---|
-| New features | Increment **left**, reset right to 0 | 1.0 → 2.0 |
-| Modify existing sprint | Increment **right** | 1.0 → 1.1 |
+| New features (first batch) | Increment **left**, reset right to 0 | 1.0 → 2.0 |
+| Overflow batch (>3 features) | Same **left**, increment **right** | 6.0 → 6.1 → 6.2 |
+| Modify existing sprint | Increment **right** after last batch | 1.2 → 1.3 |
 | Modify blueprint | Increment **right** of Sprint 0 | 0.0 → 0.1 |
 | Project initialization | Always Sprint 0.0 | 0.0 |
 
@@ -75,22 +80,33 @@ docs/
 
 1. **Read current state**: `docs/blueprint.md`, `docs/progress.md`, and existing
    sprint folders under `docs/Sprints/`.
-2. **Determine version number** using the versioning rules above.
-3. **Select up to 3 features** from the roadmap (skip completed items). All features
-   in a sprint must be **independent** — implementable in parallel.
-4. **Create** `docs/Sprints/Sprint-X.Y/` with one file per feature using the template
-   in [feature-template.md](./resources/feature-template.md).
-5. **Update** `docs/progress.md` with the new sprint entry (🔄 In Progress).
-6. **Update** `docs/blueprint.md` if the roadmap was affected.
+2. **Determine base version number** using the versioning rules above. This is the
+   `X.0` of the first batch.
+3. **Collect ALL remaining features** from the roadmap (skip completed items).
+4. **Batch features** into groups of up to 3, preserving roadmap order. Each batch
+   becomes a consecutive sprint folder:
+   - Batch 1 → `Sprint-X.0/`
+   - Batch 2 → `Sprint-X.1/`
+   - Batch 3 → `Sprint-X.2/`
+   - …and so on until all features are covered.
+5. **Within each batch**, all features must be **independent** — implementable in
+   parallel with the other features in the same batch.
+6. **Create** each `docs/Sprints/Sprint-X.Y/` folder with one file per feature using
+   the template in [feature-template.md](./resources/feature-template.md).
+7. **Update** `docs/progress.md` with entries for **every** new sprint folder
+   (🔄 In Progress).
+8. **Update** `docs/blueprint.md` if the roadmap was affected.
 
 ---
 
 ## Constraints
 
-- **Max 3 features per sprint**. Fewer is fine.
-- **Feature independence** — No feature depends on another in the same sprint.
+- **All features are planned** — Every remaining roadmap feature gets a document.
+- **Up to 3 features per sprint folder** — When there are more than 3 features, split
+  them across consecutive sprint folders (X.0, X.1, X.2, …).
+- **Feature independence** — No feature depends on another in the same sprint batch.
 - **Blueprint stays in sync** — Update it whenever the plan changes.
-- **Progress tracking is mandatory** — Every sprint is logged in `docs/progress.md`.
+- **Progress tracking is mandatory** — Every sprint folder is logged in `docs/progress.md`.
 - **Sprint 0.0 is always first**.
 - **Be specific** — Feature files must include file paths, component names, data
   structures, and mock data examples.
