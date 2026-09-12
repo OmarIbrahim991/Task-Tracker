@@ -26,6 +26,9 @@ Task Tracker is a full-stack task and todo management application featuring an i
 - **As an Admin user**, I want to toggle between Light and Dark mode to comfortably view the application in different lighting environments.
 - **As an Admin user**, I want to assign a task to one of the users available from the backend without managing users in the task board UI.
 - **As an Admin user**, I want to drop a task after a specific card and have that placement remain after reload.
+- **As an Admin user**, I want to open a settings page and update the API base URL at runtime so I can point the client at different backends without rebuilding.
+- **As an Admin user**, I want an online/offline indication whenever the API URL is set so I know immediately whether the backend is reachable.
+- **As a visitor**, I want to sign up or sign in from a themed registration page so I can establish an account/session with the current Light/Dark UI.
 
 ### Functional Requirements
 1. **Backend (Django REST Framework + SQLite)**:
@@ -82,10 +85,15 @@ Task Tracker is a full-stack task and todo management application featuring an i
    - Task ordering:
      - Native drag-and-drop supports dropping before/after a target task as well as into an empty column.
      - The selected position is persisted through the task API and returned in task list responses.
-   - Theme System:
-     - Light Mode & Dark Mode toggle button.
-     - Persists theme choice in `localStorage`.
-     - Smooth background and card transition animations.
+    - Theme System:
+      - Light Mode & Dark Mode toggle button.
+      - Persists theme choice in `localStorage`.
+      - Smooth background and card transition animations.
+    - App Routing & Account Settings:
+      - `/settings` route with a single runtime option: API base URL override persisted in `localStorage` (falls back to `VITE_API_BASE_URL || "/api"`), plus online/offline badge probing `GET /api/health/`.
+      - `/register` route with Sign Up / Sign In toggle reusing the theme system; sign-up via `POST /api/users/`, sign-in simulated client-side (no login/token endpoint).
+    - Backend health probe:
+      - `GET /api/health/` (unauthenticated) returns `{ "status": "ok", "db": "ok" }` after verifying DB connectivity; error path returns non-`ok` status.
 
 ### Non-Functional Requirements
 - **Performance**: Instant UI updates on drag-and-drop using optimistic updates with REST API synchronization.
@@ -169,6 +177,7 @@ class Task(models.Model):
 ### API Design
 | Endpoint | Method | Description | Sample Payload |
 |---|---|---|---|
+| `/api/health/` | GET | Health probe for online/offline indication (no auth, checks DB) | `{ "status": "ok", "db": "ok" }` |
 | `/api/users/` | GET | List safe user summaries for assignee selection | `[ { "id": 1, "username": "Admin" } ]` |
 | `/api/users/` | POST | Create a user with a username and password | `{ "username": "maya", "password": "..." }` |
 | `/api/tasks/` | GET | List all tasks | `[ { "id": 1, "title": "Setup DRF", ... } ]` |
@@ -199,6 +208,7 @@ class Task(models.Model):
 | Sprint 3.4 | Backend Testing & UI Sync State | Feature 1: Comprehensive backend test cases suite (Users, Task CRUD, reordering, validation, seed)<br>Feature 2: Persistent UI during task moves/updates with real-time backend sync status indicator |
 | Sprint 4.0 | Client Testing, Projects & DnD Stability | Feature 1: Vitest and React Testing Library client test suite<br>Feature 2: Projects page navigation, loading state, and responsive UI polish<br>Feature 3: Duplicate a task into a pre-filled, editable copy modal (reuses POST /tasks/)<br>Feature 4: Remove post-drop board refetch to eliminate flicker during rapid drag-and-drop moves |
 | Sprint 4.1 | Deployment & Containerization | Feature 1: Add Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only |
+| Sprint 4.2 | Settings & Registration Routes | Feature 1: Settings route with runtime-configurable API base URL + online/offline indication via health probe (single option for now, themed)<br>Feature 2: Registration route with sign-up/sign-in toggle reusing current UI themes (sign-up via POST /api/users/, sign-in simulated client-side)<br>Feature 3: Backend health endpoint (`GET /api/health/`) for online checks |
 
 
 ### Implementation Strategy
