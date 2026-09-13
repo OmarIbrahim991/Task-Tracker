@@ -2,13 +2,26 @@
 from typing import ClassVar
 
 from django.contrib.auth.models import User
+from django.db import connection
 from django.db.models import F
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer, UserCreateSerializer, UserSerializer
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def health_check(request):
+	# Lightweight liveness probe: verifies Django is serving and SQLite is reachable.
+	try:
+		connection.ensure_connection()
+	except Exception:  # noqa: BLE001 - any DB failure means unhealthy; never leak false ok
+		return Response({"status": "error", "db": "unreachable"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+	return Response({"status": "ok", "db": "ok"})
 
 
 class UserViewSet(viewsets.ModelViewSet):
