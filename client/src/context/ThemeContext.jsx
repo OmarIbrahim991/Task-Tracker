@@ -7,7 +7,11 @@ export const ThemeProvider = ({ children }) => {
 	const [theme, setTheme] = useState(() => {
 		const saved = localStorage.getItem("task-tracker-theme")
 		if (saved) return saved
-		return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+		try {
+			return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ? "dark" : "light"
+		} catch {
+			return "light"
+		}
 	})
 
 	useEffect(() => {
@@ -19,7 +23,7 @@ export const ThemeProvider = ({ children }) => {
 		setTheme((prev) => (prev === "dark" ? "light" : "dark"))
 	}
 
-	return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
+	return <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => {

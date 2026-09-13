@@ -7,7 +7,9 @@ import { OfflineBanner } from "./components/OfflineBanner"
 import { TaskModal } from "./components/TaskModal"
 import { OfflineQueueProvider } from "./context/OfflineQueueContext"
 import { ThemeProvider } from "./context/ThemeContext"
+import { AuthPage } from "./pages/AuthPage"
 import { ProjectsPage } from "./pages/ProjectsPage"
+import { SettingsPage } from "./pages/SettingsPage"
 import { projectApi } from "./services/api"
 
 export default function App() {
@@ -95,6 +97,12 @@ export default function App() {
 						</Route>
 						<Route path="/projects">
 							<ProjectsPage onProjectsRefresh={fetchProjects} />
+						</Route>
+						<Route path="/settings">
+							<SettingsPage />
+						</Route>
+						<Route path="/register">
+							<AuthPage />
 						</Route>
 					</Switch>
 					<TaskModal isOpen={isModalOpen} onClose={handleCloseModal} taskToEdit={taskToEdit} onSave={handleSaveModal} modalMode={modalMode} />
