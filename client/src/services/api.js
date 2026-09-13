@@ -46,4 +46,25 @@ export const userApi = {
 	async getUsers() {
 		return apiRequest("/users/")
 	},
+
+	async createUser({ username, password }) {
+		return apiRequest("/users/", { method: "POST", body: { username, password } })
+	},
+}
+
+export const systemApi = {
+	// Probes GET /health/; resolves true only on HTTP 200 with { status: "ok" }.
+	// Any network error, timeout, non-2xx, or invalid body resolves false (never throws).
+	async checkHealth() {
+		const controller = new AbortController()
+		const timeoutId = setTimeout(() => controller.abort(), 5000)
+		try {
+			const data = await apiRequest("/health/", { signal: controller.signal })
+			return data?.status === "ok"
+		} catch {
+			return false
+		} finally {
+			clearTimeout(timeoutId)
+		}
+	},
 }
