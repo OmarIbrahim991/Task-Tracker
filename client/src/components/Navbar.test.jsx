@@ -29,15 +29,34 @@ describe("Navbar", () => {
 		expect(location.history.at(-1)).toBe("/")
 	})
 
-	it("shows a Projects link from the board", () => {
+	it("does not show a direct Projects link in the nav", () => {
 		renderNavbar("/")
 
-		expect(screen.getByRole("link", { name: "Projects" })).toHaveAttribute("href", "/projects")
+		expect(screen.queryByRole("link", { name: "Projects" })).not.toBeInTheDocument()
+		expect(screen.queryByRole("link", { name: "Board" })).not.toBeInTheDocument()
 	})
 
-	it("shows a Board link from the Projects page", () => {
-		renderNavbar("/projects")
+	it("reveals settings, theme toggle, and sign in inside the menu dropdown", async () => {
+		const user = userEvent.setup()
+		renderNavbar("/")
 
-		expect(screen.getByRole("link", { name: "Board" })).toHaveAttribute("href", "/")
+		expect(screen.queryByRole("menu")).not.toBeInTheDocument()
+
+		await user.click(screen.getByRole("button", { name: "Open menu" }))
+
+		expect(screen.getByRole("menu", { name: "Site menu" })).toBeInTheDocument()
+		expect(screen.getByRole("menuitem", { name: "Settings" })).toHaveAttribute("href", "/settings")
+		expect(screen.getByRole("menuitem", { name: /Switch to (Light|Dark) mode/ })).toBeInTheDocument()
+		expect(screen.getByRole("menuitem", { name: "Sign in" })).toHaveAttribute("href", "/register")
+	})
+
+	it("navigates to settings from the menu dropdown", async () => {
+		const user = userEvent.setup()
+		const location = renderNavbar("/")
+
+		await user.click(screen.getByRole("button", { name: "Open menu" }))
+		await user.click(screen.getByRole("menuitem", { name: "Settings" }))
+
+		expect(location.history.at(-1)).toBe("/settings")
 	})
 })
