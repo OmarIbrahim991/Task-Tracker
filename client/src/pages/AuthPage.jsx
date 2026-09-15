@@ -2,8 +2,7 @@
 import { useState } from "react"
 import { useLocation } from "wouter"
 import { AuthForm } from "../components/AuthForm"
-import { userApi } from "../services/api"
-import { getSessionUser, setSessionUser, signIn } from "../services/authService"
+import { getSessionUser, signIn, signUp } from "../services/authService"
 
 const extractErrorMessage = (err, fallback) => {
 	const body = err?.body
@@ -36,9 +35,7 @@ export const AuthPage = () => {
 		setSuccess("")
 		try {
 			if (isSignup) {
-				const created = await userApi.createUser({ username, password })
-				const session = { id: created?.id ?? null, username: created?.username ?? username }
-				setSessionUser(session)
+				const session = await signUp({ username, password })
 				setSessionUserState(session)
 				setSuccess(`Welcome, ${session.username}! Your account was created.`)
 			} else {

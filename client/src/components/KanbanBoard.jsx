@@ -8,6 +8,7 @@ import { API_BASE_URL } from "../utils/apiClient"
 import { COLUMNS } from "../utils/constants"
 import { isNetworkError } from "../utils/offlineQueue"
 import { getVisibleTasks, withProjectDetails } from "../utils/taskHelpers"
+import AuthRequiredPrompt from "./AuthRequiredPrompt"
 import { ConfirmDialog } from "./ConfirmDialog"
 import { KanbanColumn } from "./KanbanColumn"
 import { SyncIndicator } from "./SyncIndicator"
@@ -50,13 +51,20 @@ export const KanbanBoard = ({ onOpenModalWithTask, onDuplicateTask, registerSave
 		[clearSavedTimer],
 	)
 
+	const [isUnauthorized, setIsUnauthorized] = useState(false)
+
 	const fetchTasks = useCallback(async ({ silent = false } = {}) => {
 		if (!silent) setInitialLoading(true)
 		try {
 			const data = await taskApi.getTasks()
 			setTasks(data)
 			setUseFallback(false)
+			setIsUnauthorized(false)
 		} catch (err) {
+			if (err.status === 401 || err.status === 403) {
+				setIsUnauthorized(true)
+				return
+			}
 			if (!silent) {
 				console.info("Using local state fallback while backend server connects...")
 				setTasks([])
@@ -293,6 +301,10 @@ export const KanbanBoard = ({ onOpenModalWithTask, onDuplicateTask, registerSave
 
 	if (initialLoading) {
 		return <div className="loading-spinner">Loading Kanban Board...</div>
+	}
+
+	if (isUnauthorized) {
+		return <AuthRequiredPrompt />
 	}
 
 	return (

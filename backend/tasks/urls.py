@@ -12,4 +12,7 @@ router.register(r"projects", ProjectViewSet, basename="project")
 
 urlpatterns = router.urls + [
 	path("health/", views.health_check, name="health"),
+	path("auth/login/", views.login_view, name="auth-login"),
+	path("auth/logout/", views.logout_view, name="auth-logout"),
+	path("auth/status/", views.auth_status, name="auth-status"),
 ]

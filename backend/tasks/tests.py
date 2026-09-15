@@ -245,7 +245,7 @@ class HealthEndpointTests(APITestCase):
 		response = self.client.get(self.health_url)
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
-		self.assertEqual(response.data, {"status": "ok", "db": "ok"})
+		self.assertEqual(response.data, {"status": "ok", "db": "ok", "auth_required": False})
 
 	def test_health_returns_503_when_db_unreachable(self):
 		with patch("tasks.views.connection.ensure_connection", side_effect=Exception("db down")):
@@ -253,3 +253,127 @@ class HealthEndpointTests(APITestCase):
 
 		self.assertEqual(response.status_code, status.HTTP_503_SERVICE_UNAVAILABLE)
 		self.assertEqual(response.data, {"status": "error", "db": "unreachable"})
+
+
+from django.test import override_settings
+
+
+class AuthToggleTests(APITestCase):
+	project_url = "/api/projects/"
+	task_url = "/api/tasks/"
+	user_url = "/api/users/"
+	health_url = "/api/health/"
+
+	def setUp(self):
+		self.user = User.objects.create_user(username="authuser", password="password123")
+
+	def test_endpoints_accessible_when_auth_disabled(self):
+		# Default settings (REQUIRE_AUTH=False)
+		self.assertEqual(self.client.get(self.task_url).status_code, status.HTTP_200_OK)
+		self.assertEqual(self.client.get(self.project_url).status_code, status.HTTP_200_OK)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_endpoints_protected_when_auth_enabled(self):
+		self.assertEqual(self.client.get(self.task_url).status_code, status.HTTP_403_FORBIDDEN)
+		self.assertEqual(self.client.get(self.project_url).status_code, status.HTTP_403_FORBIDDEN)
+		self.assertEqual(self.client.get(self.user_url).status_code, status.HTTP_403_FORBIDDEN)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_endpoints_accessible_when_authenticated(self):
+		self.client.force_authenticate(user=self.user)
+		self.assertEqual(self.client.get(self.task_url).status_code, status.HTTP_200_OK)
+		self.assertEqual(self.client.get(self.project_url).status_code, status.HTTP_200_OK)
+		self.assertEqual(self.client.get(self.user_url).status_code, status.HTTP_200_OK)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_public_endpoints_accessible_when_auth_enabled(self):
+		self.assertEqual(self.client.get(self.health_url).status_code, status.HTTP_200_OK)
+		self.assertEqual(
+			self.client.post(self.user_url, {"username": "newuser", "password": "password123"}, format="json").status_code, status.HTTP_201_CREATED
+		)
+
+
+class AuthEndpointsTests(APITestCase):
+	login_url = "/api/auth/login/"
+	logout_url = "/api/auth/logout/"
+	status_url = "/api/auth/status/"
+	user_url = "/api/users/"
+	health_url = "/api/health/"
+
+	def setUp(self):
+		self.user = User.objects.create_user(username="authuser", password="password123")
+
+	def test_login_success_returns_user(self):
+		response = self.client.post(self.login_url, {"username": "authuser", "password": "password123"}, format="json")
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["username"], "authuser")
+		self.assertEqual(response.data["id"], self.user.id)
+
+	def test_login_wrong_password_fails(self):
+		response = self.client.post(self.login_url, {"username": "authuser", "password": "wrong"}, format="json")
+
+		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+	def test_login_unknown_user_fails(self):
+		response = self.client.post(self.login_url, {"username": "ghost", "password": "whatever"}, format="json")
+
+		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+	def test_login_missing_fields_fails(self):
+		self.assertEqual(self.client.post(self.login_url, {"username": "authuser"}, format="json").status_code, status.HTTP_400_BAD_REQUEST)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_login_logout_status_accessible_when_auth_enabled(self):
+		login_response = self.client.post(self.login_url, {"username": "authuser", "password": "password123"}, format="json")
+		self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+
+		status_response = self.client.get(self.status_url)
+		self.assertEqual(status_response.status_code, status.HTTP_200_OK)
+		self.assertTrue(status_response.data["authenticated"])
+		self.assertTrue(status_response.data["auth_required"])
+
+		logout_response = self.client.post(self.logout_url, {}, format="json")
+		self.assertEqual(logout_response.status_code, status.HTTP_200_OK)
+
+	def test_status_reports_auth_required_flag(self):
+		anonymous_status = self.client.get(self.status_url)
+		self.assertEqual(anonymous_status.status_code, status.HTTP_200_OK)
+		self.assertFalse(anonymous_status.data["authenticated"])
+		self.assertIsNone(anonymous_status.data["user"])
+		self.assertFalse(anonymous_status.data["auth_required"])
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_signup_succeeds_with_stale_authorization_header(self):
+		# The frontend may attach stored credentials; stale ones must not block registration.
+		response = self.client.post(
+			self.user_url,
+			{"username": "freshuser", "password": "password123"},
+			format="json",
+			HTTP_AUTHORIZATION="Basic QWRtaW46d3JvbmctcGFzc3dvcmQ=",
+		)
+
+		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_health_and_login_succeed_with_stale_authorization_header(self):
+		stale = "Basic QWRtaW46d3JvbmctcGFzc3dvcmQ="
+		self.assertEqual(self.client.get(self.health_url, HTTP_AUTHORIZATION=stale).status_code, status.HTTP_200_OK)
+		login_response = self.client.post(self.login_url, {"username": "authuser", "password": "password123"}, format="json", HTTP_AUTHORIZATION=stale)
+		self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+
+	@override_settings(REQUIRE_AUTH=True)
+	def test_session_authenticated_writes_succeed_without_csrf_token(self):
+		# Regression test: logging in via the API establishes a session, and
+		# subsequent session-cookie writes must not fail CSRF validation.
+		self.assertTrue(self.client.login(username="authuser", password="password123"))
+
+		task = Task.objects.create(title="Session reorder", status="TODO", position=0)
+		reorder_response = self.client.post(f"/api/tasks/{task.id}/reorder/", {"status": "DONE"}, format="json")
+		self.assertEqual(reorder_response.status_code, status.HTTP_200_OK)
+
+		create_response = self.client.post("/api/tasks/", {"title": "Session created"}, format="json")
+		self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)
+
+		update_response = self.client.patch(f"/api/tasks/{task.id}/", {"priority": "HIGH"}, format="json")
+		self.assertEqual(update_response.status_code, status.HTTP_200_OK)

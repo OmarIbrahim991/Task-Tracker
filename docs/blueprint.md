@@ -29,6 +29,7 @@ Task Tracker is a full-stack task and todo management application featuring an i
 - **As an Admin user**, I want to open a settings page and update the API base URL at runtime so I can point the client at different backends without rebuilding.
 - **As an Admin user**, I want an online/offline indication whenever the API URL is set so I know immediately whether the backend is reachable.
 - **As a visitor**, I want to sign up or sign in from a themed registration page so I can establish an account/session with the current Light/Dark UI.
+- **As a user / administrator**, I want the backend to support an environment variable (`REQUIRE_AUTH`) to enforce authentication for tasks and projects, and the frontend to display an informative authentication prompt when unauthenticated.
 
 ### Functional Requirements
 1. **Backend (Django REST Framework + SQLite)**:
@@ -94,6 +95,9 @@ Task Tracker is a full-stack task and todo management application featuring an i
       - `/register` route with Sign Up / Sign In toggle reusing the theme system; sign-up via `POST /api/users/`, sign-in simulated client-side (no login/token endpoint).
     - Backend health probe:
       - `GET /api/health/` (unauthenticated) returns `{ "status": "ok", "db": "ok" }` after verifying DB connectivity; error path returns non-`ok` status.
+    - Authentication Requirement & UI Prompts:
+      - Backend configurable `REQUIRE_AUTH` environment variable: when enabled, enforces authentication on `/api/tasks/` and `/api/projects/` returning 401/403.
+      - Frontend handles 401/403 status by presenting an accessible, themed authentication prompt card with a direct call to action navigating to `/register`.
 
 ### Non-Functional Requirements
 - **Performance**: Instant UI updates on drag-and-drop using optimistic updates with REST API synchronization.
@@ -101,7 +105,7 @@ Task Tracker is a full-stack task and todo management application featuring an i
 - **Code Quality**: Clean separation of concerns between components, services, and backend layers.
 
 ### Constraints & Assumptions
-  - **Authentication**: Login/authentication remains bypassed for MVP; user records are used for task assignment only.
+  - **Authentication**: Login/authentication is bypassed by default (`REQUIRE_AUTH=False`) for local development, but can be enforced via environment variable (`REQUIRE_AUTH=True`), prompting unauthenticated clients to sign in or register.
   - **Scope**: Single board view with project labels, filtering, user-backed assignees, and persisted task ordering. User creation is backend/API-only.
 - **Package Manager**: Frontend must use `pnpm`.
 - **Drag & Drop**: STRICTLY NO third-party libraries (e.g., `react-beautiful-dnd`, `@hello-pangea/dnd`, `dnd-kit`). Must use standard HTML5 drag & drop events.
@@ -209,6 +213,7 @@ class Task(models.Model):
 | Sprint 4.0 | Client Testing, Projects & DnD Stability | Feature 1: Vitest and React Testing Library client test suite<br>Feature 2: Projects page navigation, loading state, and responsive UI polish<br>Feature 3: Duplicate a task into a pre-filled, editable copy modal (reuses POST /tasks/)<br>Feature 4: Remove post-drop board refetch to eliminate flicker during rapid drag-and-drop moves |
 | Sprint 4.1 | Deployment & Containerization | Feature 1: Add Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only |
 | Sprint 4.2 | Settings & Registration Routes | Feature 1: Settings route with runtime-configurable API base URL + online/offline indication via health probe (single option for now, themed)<br>Feature 2: Registration route with sign-up/sign-in toggle reusing current UI themes (sign-up via POST /api/users/, sign-in simulated client-side)<br>Feature 3: Backend health endpoint (`GET /api/health/`) for online checks |
+| Sprint 4.3 | Auth Environment Requirement & Frontend Auth Guard | Feature 1: Backend Auth Requirement Toggle via Environment Variable (`REQUIRE_AUTH`)<br>Feature 2: Frontend Auth State Handling & Unauthorized Messaging |
 
 
 ### Implementation Strategy

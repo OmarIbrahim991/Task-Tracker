@@ -59,13 +59,32 @@ export class ApiError extends Error {
 	}
 }
 
-export const apiRequest = async (path, { method = "GET", body, headers = {}, signal } = {}) => {
+import { getSessionUser } from "../services/authService"
+
+const buildBasicHeader = (session) => {
+	if (!session?.username || !session?.password) return null
+	try {
+		return `Basic ${btoa(`${session.username}:${session.password}`)}`
+	} catch {
+		return null
+	}
+}
+
+export const apiRequest = async (path, { method = "GET", body, headers = {}, signal, auth = true } = {}) => {
 	// await sleep(getRandomDelay()) // Simulate network delay
 	const url = `${getApiBaseUrl()}${path}`
+	// Public endpoints (signup, login, health, auth status) skip credentials so
+	// stale stored sessions can never block them with a 401/403.
+	const session = auth ? getSessionUser() : null
+	const basicHeader = buildBasicHeader(session)
+
 	const options = {
 		method,
+		// Send session cookies (Django session auth) alongside Basic auth.
+		credentials: "include",
 		headers: {
 			Accept: "application/json",
+			...(basicHeader ? { Authorization: basicHeader } : {}),
 			...headers,
 		},
 	}

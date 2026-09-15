@@ -19,4 +19,5 @@ This file tracks the completion status of each sprint.
 | Sprint 4.0 | ✅ Complete | Vitest + React Testing Library coverage, Projects page UI improvements, task duplication with editable copy modal, and drag-and-drop flickering fix for optimistic reordering |
 | Sprint 4.1 | ✅ Complete | Added Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only within the container |
 | Sprint 4.2 | ✅ Complete | Settings route with runtime-configurable API base URL + online/offline health indication, registration route with themed sign-up/sign-in, and backend health endpoint |
+| Sprint 4.3 | ✅ Complete | Backend authentication requirement env toggle for Tasks/Projects APIs and frontend unauthorized state handling with auth prompt |
 

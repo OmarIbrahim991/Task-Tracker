@@ -48,7 +48,25 @@ export const userApi = {
 	},
 
 	async createUser({ username, password }) {
-		return apiRequest("/users/", { method: "POST", body: { username, password } })
+		return apiRequest("/users/", { method: "POST", body: { username, password }, auth: false })
+	},
+}
+
+export const authApi = {
+	async login({ username, password }) {
+		return apiRequest("/auth/login/", { method: "POST", body: { username, password }, auth: false })
+	},
+
+	async logout() {
+		try {
+			return await apiRequest("/auth/logout/", { method: "POST", auth: false })
+		} catch {
+			return null
+		}
+	},
+
+	async getStatus() {
+		return apiRequest("/auth/status/", { auth: false })
 	},
 }
 
@@ -59,7 +77,7 @@ export const systemApi = {
 		const controller = new AbortController()
 		const timeoutId = setTimeout(() => controller.abort(), 5000)
 		try {
-			const data = await apiRequest("/health/", { signal: controller.signal })
+			const data = await apiRequest("/health/", { signal: controller.signal, auth: false })
 			return data?.status === "ok"
 		} catch {
 			return false

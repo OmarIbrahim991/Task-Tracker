@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Link, useLocation } from "wouter"
 import { useTheme } from "../context/ThemeContext"
 import { useClickOutside } from "../hooks/useClickOutside"
+import { authApi } from "../services/api"
 import { getSessionUser, signOut } from "../services/authService"
 import { ProjectToggleDropdown } from "./ProjectToggleDropdown"
 
@@ -12,10 +13,14 @@ export const Navbar = ({ onOpenNewTaskModal, projects, enabledProjectIds, onTogg
 	const [location, navigate] = useLocation()
 	const isSettingsPage = location === "/settings"
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const [authRequired, setAuthRequired] = useState(false)
 	const menuRef = useRef(null)
 	// Re-read on each render so sign in/out in /register reflects here
 	const sessionUser = getSessionUser()
 	const [, setTick] = useState(0)
+	// Logged-out visitors must not create tasks or filter projects while the
+	// backend requires authentication.
+	const actionsLocked = authRequired && !sessionUser
 
 	const handleCloseMenu = useCallback(() => setIsMenuOpen(false), [])
 	useClickOutside(menuRef, handleCloseMenu, isMenuOpen)
@@ -24,6 +29,22 @@ export const Navbar = ({ onOpenNewTaskModal, projects, enabledProjectIds, onTogg
 	// biome-ignore lint/correctness/useExhaustiveDependencies: re-run on route change to close the menu
 	useEffect(() => {
 		setIsMenuOpen(false)
+	}, [location])
+
+	// Discover whether the backend requires authentication; refresh on route
+	// changes so sign in/out in /register is reflected immediately.
+	// biome-ignore lint/correctness/useExhaustiveDependencies: re-run on route change to refresh auth status
+	useEffect(() => {
+		let cancelled = false
+		authApi
+			.getStatus()
+			.then((data) => {
+				if (!cancelled) setAuthRequired(data?.auth_required === true)
+			})
+			.catch(() => {})
+		return () => {
+			cancelled = true
+		}
 	}, [location])
 
 	useEffect(() => {
@@ -51,11 +72,15 @@ export const Navbar = ({ onOpenNewTaskModal, projects, enabledProjectIds, onTogg
 				<h1 className="navbar-title">Task Tracker</h1>
 			</Link>
 			<div className="navbar-actions">
-				<ProjectToggleDropdown projects={projects} enabledProjectIds={enabledProjectIds} onToggle={onToggleProject} />
-				<button type="button" className="btn btn-primary" onClick={onOpenNewTaskModal}>
-					<Plus size={18} />
-					<span>New Task</span>
-				</button>
+				{!actionsLocked && (
+					<>
+						<ProjectToggleDropdown projects={projects} enabledProjectIds={enabledProjectIds} onToggle={onToggleProject} />
+						<button type="button" className="btn btn-primary" onClick={onOpenNewTaskModal} title="Create a new task">
+							<Plus size={18} />
+							<span>New Task</span>
+						</button>
+					</>
+				)}
 				<div className="navbar-menu" ref={menuRef}>
 					<button
 						type="button"
@@ -96,7 +121,7 @@ export const Navbar = ({ onOpenNewTaskModal, projects, enabledProjectIds, onTogg
 									</button>
 								</>
 							) : (
-								<Link href="/register" role="menuitem" className="navbar-menu-item" onClick={() => setIsMenuOpen(false)}>
+								<Link href="/register" role="menuitem" className="navbar-menu-item auth-highlight" onClick={() => setIsMenuOpen(false)}>
 									<LogIn size={16} />
 									<span>Sign in</span>
 								</Link>

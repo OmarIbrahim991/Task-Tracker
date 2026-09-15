@@ -6,15 +6,19 @@ import { Router } from "wouter"
 import { memoryLocation } from "wouter/memory-location"
 import { AuthPage } from "./AuthPage"
 
-const { mockCreateUser, mockGetUsers } = vi.hoisted(() => ({
+const { mockCreateUser, mockLogin } = vi.hoisted(() => ({
 	mockCreateUser: vi.fn(),
-	mockGetUsers: vi.fn(),
+	mockLogin: vi.fn(),
 }))
 
 vi.mock("../services/api", () => ({
 	userApi: {
 		createUser: mockCreateUser,
-		getUsers: mockGetUsers,
+	},
+	authApi: {
+		login: mockLogin,
+		logout: vi.fn(),
+		getStatus: vi.fn(),
 	},
 	projectApi: { getProjects: vi.fn() },
 	taskApi: { getTasks: vi.fn() },
@@ -33,7 +37,7 @@ const renderPage = (path = "/register") => {
 beforeEach(() => {
 	localStorage.clear()
 	mockCreateUser.mockReset()
-	mockGetUsers.mockReset()
+	mockLogin.mockReset()
 })
 
 describe("AuthPage", () => {
@@ -69,7 +73,8 @@ describe("AuthPage", () => {
 		await user.click(screen.getByRole("button", { name: "Sign up" }))
 
 		expect(await screen.findByRole("status")).toHaveTextContent("Welcome, newuser!")
-		expect(JSON.parse(localStorage.getItem("task-tracker:auth-user"))).toEqual({ id: 3, username: "newuser" })
+		expect(mockCreateUser).toHaveBeenCalledWith({ username: "newuser", password: "password123" })
+		expect(JSON.parse(localStorage.getItem("task-tracker:auth-user"))).toEqual({ id: 3, username: "newuser", password: "password123" })
 	})
 
 	it("surfaces duplicate-username failures in an alert", async () => {
@@ -89,12 +94,39 @@ describe("AuthPage", () => {
 		expect(await screen.findByRole("alert")).toHaveTextContent("A user with that username already exists.")
 	})
 
-	it("signs in against fetched users and redirects to the board", async () => {
+	it("signs in against the backend login endpoint and redirects to the board", async () => {
 		const user = userEvent.setup()
-		mockGetUsers.mockResolvedValue([{ id: 2, username: "maya" }])
+		mockLogin.mockResolvedValue({ id: 2, username: "maya" })
 		const location = renderPage()
 
 		await user.type(screen.getByLabelText("Username"), "maya")
+		await user.type(screen.getByLabelText("Password"), "correct-password")
+		await user.click(screen.getByRole("button", { name: "Sign in" }))
+
+		expect(mockLogin).toHaveBeenCalledWith({ username: "maya", password: "correct-password" })
+		await waitFor(() => expect(location.history.at(-1)).toBe("/"))
+	})
+
+	it("rejects wrong sign-in passwords", async () => {
+		const user = userEvent.setup()
+		const err = new Error("Invalid username or password.")
+		err.status = 400
+		mockLogin.mockRejectedValue(err)
+		renderPage()
+
+		await user.type(screen.getByLabelText("Username"), "maya")
+		await user.type(screen.getByLabelText("Password"), "wrong-password")
+		await user.click(screen.getByRole("button", { name: "Sign in" }))
+
+		expect(await screen.findByRole("alert")).toHaveTextContent("Invalid username or password.")
+	})
+
+	it("signs in offline with a known user when the backend is unreachable", async () => {
+		const user = userEvent.setup()
+		mockLogin.mockRejectedValue(new TypeError("Failed to fetch"))
+		const location = renderPage()
+
+		await user.type(screen.getByLabelText("Username"), "Admin")
 		await user.type(screen.getByLabelText("Password"), "any-password")
 		await user.click(screen.getByRole("button", { name: "Sign in" }))
 
@@ -103,7 +135,7 @@ describe("AuthPage", () => {
 
 	it("rejects unknown sign-in usernames", async () => {
 		const user = userEvent.setup()
-		mockGetUsers.mockResolvedValue([{ id: 2, username: "maya" }])
+		mockLogin.mockRejectedValue(new TypeError("Failed to fetch"))
 		renderPage()
 
 		await user.type(screen.getByLabelText("Username"), "ghost")
