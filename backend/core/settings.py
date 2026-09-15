@@ -8,7 +8,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-task-tracker-dev-ke
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost:3000", "127.0.0.1:3000", "omaribrahim991.pythonanywhere.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "omaribrahim991.pythonanywhere.com"]
 
 
 def _parse_bool(value):
