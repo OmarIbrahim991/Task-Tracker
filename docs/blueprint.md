@@ -214,6 +214,8 @@ class Task(models.Model):
 | Sprint 4.1 | Deployment & Containerization | Feature 1: Add Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only |
 | Sprint 4.2 | Settings & Registration Routes | Feature 1: Settings route with runtime-configurable API base URL + online/offline indication via health probe (single option for now, themed)<br>Feature 2: Registration route with sign-up/sign-in toggle reusing current UI themes (sign-up via POST /api/users/, sign-in simulated client-side)<br>Feature 3: Backend health endpoint (`GET /api/health/`) for online checks |
 | Sprint 4.3 | Auth Environment Requirement & Frontend Auth Guard | Feature 1: Backend Auth Requirement Toggle via Environment Variable (`REQUIRE_AUTH`)<br>Feature 2: Frontend Auth State Handling & Unauthorized Messaging |
+| Sprint 5.0 | Code Cleanup & Session Navigation | Feature 1: Remove unused backend code and imports<br>Feature 2: Remove unused client code and imports<br>Feature 3: Navigate to the home page after logout |
+| Sprint 5.1 | Environment-Based Django Secret Key | Feature 1: Read `SECRET_KEY` from the environment with the current development key as fallback |
 
 
 ### Implementation Strategy

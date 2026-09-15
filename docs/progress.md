@@ -20,4 +20,6 @@ This file tracks the completion status of each sprint.
 | Sprint 4.1 | ✅ Complete | Added Docker support for a single-image deployment where the React client is publicly exposed and the Django backend remains internal-only within the container |
 | Sprint 4.2 | ✅ Complete | Settings route with runtime-configurable API base URL + online/offline health indication, registration route with themed sign-up/sign-in, and backend health endpoint |
 | Sprint 4.3 | ✅ Complete | Backend authentication requirement env toggle for Tasks/Projects APIs and frontend unauthorized state handling with auth prompt |
+| Sprint 5.0 | ✅ Complete | Removed unused backend/client code paths and hardened logout so it clears the local session and returns users to the home page without blocking on backend logout errors |
+| Sprint 5.1 | ✅ Complete | Load Django `SECRET_KEY` from `DJANGO_SECRET_KEY` while retaining the current insecure development fallback, with tests and setup documentation |
 

@@ -70,6 +70,9 @@ Task Tracker is a modern, responsive full-stack task management application feat
 - **Frontend formatter and linter**: `client/biome.json`.
 - **Frontend theme and global styles**: `client/src/index.css`.
 
+#### Backend environment variables
+- `DJANGO_SECRET_KEY`: Django's signing key. When unset, local development uses `django-insecure-task-tracker-dev-key-change-in-production`; deployments should provide a secure value through the process environment.
+
 ---
 
 ### 1. Setup Backend (Django REST API)

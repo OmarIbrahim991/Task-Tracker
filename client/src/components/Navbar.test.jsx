@@ -112,6 +112,7 @@ describe("Navbar", () => {
 
 		expect(localStorage.getItem("task-tracker:auth-user")).toBeNull()
 		expect(location.history.at(-1)).toBe("/")
+		await user.click(screen.getByRole("button", { name: "Open menu" }))
 		expect(screen.getByRole("menuitem", { name: "Sign in" })).toHaveAttribute("href", "/register")
 	})
 })
