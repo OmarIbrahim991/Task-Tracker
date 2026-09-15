@@ -8,7 +8,7 @@ SECRET_KEY = "django-insecure-task-tracker-dev-key-change-in-production"
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost:3000", "127.0.0.1:3000", "omaribrahim991.pythonanywhere.com"]
 
 
 def _parse_bool(value):
@@ -78,7 +78,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000", "https://omaribrahim991.pythonanywhere.com"]
+
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
 	"DEFAULT_AUTHENTICATION_CLASSES": [
