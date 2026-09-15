@@ -103,9 +103,9 @@ describe("Navbar", () => {
 
 	it("signs the user out and returns home from the settings page even when the server logout fails", async () => {
 		const user = userEvent.setup()
-		const location = renderNavbar("/settings")
 		localStorage.setItem("task-tracker:auth-user", JSON.stringify({ id: 2, username: "maya", password: "secret" }))
 		vi.spyOn(apiServices.authApi, "logout").mockRejectedValue(new Error("offline"))
+		const location = renderNavbar("/settings")
 
 		await user.click(screen.getByRole("button", { name: "Open menu" }))
 		await user.click(screen.getByRole("menuitem", { name: "Sign out" }))
