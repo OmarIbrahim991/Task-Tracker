@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { Router } from "wouter"
 import { memoryLocation } from "wouter/memory-location"
 import { ThemeProvider } from "../context/ThemeContext"
+import * as apiServices from "../services/api"
 import { Navbar } from "./Navbar"
 
 const statusResponse = (payload) => ({
@@ -98,5 +99,19 @@ describe("Navbar", () => {
 
 		expect(await screen.findByRole("button", { name: /new task/i })).toBeInTheDocument()
 		expect(screen.getByRole("button", { name: /filter/i })).toBeInTheDocument()
+	})
+
+	it("signs the user out and returns home from the settings page even when the server logout fails", async () => {
+		const user = userEvent.setup()
+		const location = renderNavbar("/settings")
+		localStorage.setItem("task-tracker:auth-user", JSON.stringify({ id: 2, username: "maya", password: "secret" }))
+		vi.spyOn(apiServices.authApi, "logout").mockRejectedValue(new Error("offline"))
+
+		await user.click(screen.getByRole("button", { name: "Open menu" }))
+		await user.click(screen.getByRole("menuitem", { name: "Sign out" }))
+
+		expect(localStorage.getItem("task-tracker:auth-user")).toBeNull()
+		expect(location.history.at(-1)).toBe("/")
+		expect(screen.getByRole("menuitem", { name: "Sign in" })).toHaveAttribute("href", "/register")
 	})
 })
