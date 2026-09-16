@@ -216,6 +216,7 @@ class Task(models.Model):
 | Sprint 4.3 | Auth Environment Requirement & Frontend Auth Guard | Feature 1: Backend Auth Requirement Toggle via Environment Variable (`REQUIRE_AUTH`)<br>Feature 2: Frontend Auth State Handling & Unauthorized Messaging |
 | Sprint 5.0 | Code Cleanup & Session Navigation | Feature 1: Remove unused backend code and imports<br>Feature 2: Remove unused client code and imports<br>Feature 3: Navigate to the home page after logout |
 | Sprint 5.1 | Environment-Based Django Secret Key | Feature 1: Read `SECRET_KEY` from the environment with the current development key as fallback |
+| Sprint 6.0 | Navigation, Configurable Board & Authentication UX | Feature 1: Dynamic hamburger navbar menu<br>Feature 2: Configurable Kanban columns in Settings<br>Feature 3: Logout redirects to the sign-in page |
 
 
 ### Implementation Strategy

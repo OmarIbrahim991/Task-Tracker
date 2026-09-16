@@ -11,6 +11,7 @@ import { AuthPage } from "./pages/AuthPage"
 import { ProjectsPage } from "./pages/ProjectsPage"
 import { SettingsPage } from "./pages/SettingsPage"
 import { projectApi } from "./services/api"
+import { useColumnConfig } from "./utils/columnConfig"
 
 export default function App() {
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -21,6 +22,7 @@ export default function App() {
 	const [projects, setProjects] = useState([])
 	const [enabledProjectIds, setEnabledProjectIds] = useState([])
 	const [projectsLoading, setProjectsLoading] = useState(true)
+	const [columns] = useColumnConfig()
 
 	const fetchProjects = useCallback(async () => {
 		try {
@@ -90,6 +92,7 @@ export default function App() {
 								projects={projects}
 								enabledProjectIds={enabledProjectIds}
 								projectsLoading={projectsLoading}
+								columns={columns}
 								registerSaveHandler={(fn) => {
 									saveHandlerRef.current = fn
 								}}
@@ -105,7 +108,14 @@ export default function App() {
 							<AuthPage />
 						</Route>
 					</Switch>
-					<TaskModal isOpen={isModalOpen} onClose={handleCloseModal} taskToEdit={taskToEdit} onSave={handleSaveModal} modalMode={modalMode} />
+					<TaskModal
+						isOpen={isModalOpen}
+						onClose={handleCloseModal}
+						taskToEdit={taskToEdit}
+						onSave={handleSaveModal}
+						modalMode={modalMode}
+						columns={columns}
+					/>
 				</div>
 			</OfflineQueueProvider>
 		</ThemeProvider>

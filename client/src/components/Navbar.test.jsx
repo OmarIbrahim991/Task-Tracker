@@ -61,6 +61,7 @@ describe("Navbar", () => {
 		await user.click(screen.getByRole("button", { name: "Open menu" }))
 
 		expect(screen.getByRole("menu", { name: "Site menu" })).toBeInTheDocument()
+		expect(screen.getByRole("button", { name: "Close menu" })).toBeInTheDocument()
 		expect(screen.getByRole("menuitem", { name: "Settings" })).toHaveAttribute("href", "/settings")
 		expect(screen.getByRole("menuitem", { name: /Switch to (Light|Dark) mode/ })).toBeInTheDocument()
 		expect(screen.getByRole("menuitem", { name: "Sign in" })).toHaveAttribute("href", "/register")
@@ -101,7 +102,7 @@ describe("Navbar", () => {
 		expect(screen.getByRole("button", { name: /filter/i })).toBeInTheDocument()
 	})
 
-	it("signs the user out and returns home from the settings page even when the server logout fails", async () => {
+	it("signs the user out and redirects to sign in from settings even when the server logout fails", async () => {
 		const user = userEvent.setup()
 		localStorage.setItem("task-tracker:auth-user", JSON.stringify({ id: 2, username: "maya", password: "secret" }))
 		vi.spyOn(apiServices.authApi, "logout").mockRejectedValue(new Error("offline"))
@@ -111,7 +112,7 @@ describe("Navbar", () => {
 		await user.click(screen.getByRole("menuitem", { name: "Sign out" }))
 
 		expect(localStorage.getItem("task-tracker:auth-user")).toBeNull()
-		expect(location.history.at(-1)).toBe("/")
+		expect(location.history.at(-1)).toBe("/register")
 		await user.click(screen.getByRole("button", { name: "Open menu" }))
 		expect(screen.getByRole("menuitem", { name: "Sign in" })).toHaveAttribute("href", "/register")
 	})

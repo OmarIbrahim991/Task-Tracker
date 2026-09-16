@@ -5,7 +5,7 @@ import { projectApi, userApi } from "../services/api"
 import { COLUMNS, PRIORITIES, TASK_PRIORITIES, TASK_STATUSES } from "../utils/constants"
 import { MultiSelect } from "./MultiSelect"
 
-export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit, modalMode }) => {
+export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit, modalMode, columns = COLUMNS }) => {
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -150,7 +150,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, taskToEdit, modalMode }) =>
 									value={formData.status}
 									onChange={(e) => setFormData({ ...formData, status: e.target.value })}
 								>
-									{COLUMNS.map(({ id, title }) => (
+									{columns.map(({ id, title }) => (
 										<option key={id} value={id}>
 											{title}
 										</option>

@@ -13,7 +13,7 @@ import { ConfirmDialog } from "./ConfirmDialog"
 import { KanbanColumn } from "./KanbanColumn"
 import { SyncIndicator } from "./SyncIndicator"
 
-export const KanbanBoard = ({ onOpenModalWithTask, onDuplicateTask, registerSaveHandler, projects, enabledProjectIds, projectsLoading }) => {
+export const KanbanBoard = ({ onOpenModalWithTask, onDuplicateTask, registerSaveHandler, projects, enabledProjectIds, projectsLoading, columns = COLUMNS }) => {
 	const [tasks, setTasks] = useState([])
 	const [initialLoading, setInitialLoading] = useState(true)
 	const [syncState, setSyncState] = useState({ status: "idle", message: "" })
@@ -334,18 +334,21 @@ export const KanbanBoard = ({ onOpenModalWithTask, onDuplicateTask, registerSave
 			</div>
 
 			<div className="kanban-grid">
-				{COLUMNS.map((column) => (
-					<KanbanColumn
-						key={column.id}
-						column={column}
-						tasks={visibleTasks.filter((t) => t.status === column.id)}
-						onEditTask={onOpenModalWithTask}
-						onDeleteTask={handleDeleteTask}
-						onDuplicateTask={onDuplicateTask}
-						onStatusChange={handleStatusChange}
-						onDropTask={handleDropTask}
-					/>
-				))}
+				{columns
+					.filter((column) => column.visible !== false)
+					.map((column) => (
+						<KanbanColumn
+							key={column.id}
+							column={column}
+							tasks={visibleTasks.filter((t) => t.status === column.id)}
+							onEditTask={onOpenModalWithTask}
+							onDeleteTask={handleDeleteTask}
+							onDuplicateTask={onDuplicateTask}
+							onStatusChange={handleStatusChange}
+							onDropTask={handleDropTask}
+							columns={columns}
+						/>
+					))}
 			</div>
 			<ConfirmDialog
 				isOpen={confirmDeleteId !== null}

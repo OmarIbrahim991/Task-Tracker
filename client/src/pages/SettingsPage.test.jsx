@@ -7,6 +7,7 @@ import { memoryLocation } from "wouter/memory-location"
 import { ThemeProvider } from "../context/ThemeContext"
 import { systemApi } from "../services/api"
 import { API_BASE_URL_STORAGE_KEY, DEFAULT_API_BASE_URL } from "../utils/apiClient"
+import { COLUMN_CONFIG_STORAGE_KEY } from "../utils/columnConfig"
 import { SettingsPage } from "./SettingsPage"
 
 vi.mock("../services/api", () => ({
@@ -122,5 +123,52 @@ describe("SettingsPage", () => {
 		await user.click(lightButton)
 		expect(lightButton).toHaveAttribute("aria-pressed", "true")
 		expect(localStorage.getItem("task-tracker-theme")).toBe("light")
+	})
+
+	it("persists renamed, reordered, and hidden columns", async () => {
+		const user = userEvent.setup()
+		systemApi.checkHealth.mockResolvedValue(true)
+		renderSettingsPage()
+
+		const todoInput = screen.getByLabelText("Column name for TODO")
+		await user.clear(todoInput)
+		await user.type(todoInput, "Backlog")
+		await user.click(screen.getByRole("button", { name: "Move Done up" }))
+		await user.click(screen.getAllByRole("checkbox", { name: "Show" })[0])
+
+		const saved = JSON.parse(localStorage.getItem(COLUMN_CONFIG_STORAGE_KEY))
+		expect(saved.find((column) => column.id === "TODO").title).toBe("Backlog")
+		expect(saved.findIndex((column) => column.id === "DONE")).toBe(2)
+		expect(saved.find((column) => column.id === "TODO").visible).toBe(false)
+	})
+
+	it("resets column configuration to defaults", async () => {
+		const user = userEvent.setup()
+		systemApi.checkHealth.mockResolvedValue(true)
+		localStorage.setItem(COLUMN_CONFIG_STORAGE_KEY, JSON.stringify([{ id: "TODO", title: "Backlog", className: "column-todo", visible: true, order: 0 }]))
+		renderSettingsPage()
+
+		await user.click(screen.getByRole("button", { name: "Reset columns" }))
+
+		expect(localStorage.getItem(COLUMN_CONFIG_STORAGE_KEY)).toBeNull()
+		expect(screen.getByLabelText("Column name for TODO")).toHaveValue("To Do")
+	})
+
+	it("collapses and expands the board columns controls", async () => {
+		const user = userEvent.setup()
+		systemApi.checkHealth.mockResolvedValue(true)
+		renderSettingsPage()
+
+		const toggle = screen.getByRole("button", { name: /Board columns/ })
+		expect(toggle).toHaveAttribute("aria-expanded", "true")
+		expect(screen.getByLabelText("Column name for TODO")).toBeVisible()
+
+		await user.click(toggle)
+
+		expect(toggle).toHaveAttribute("aria-expanded", "false")
+		expect(screen.queryByLabelText("Column name for TODO")).not.toBeInTheDocument()
+
+		await user.click(toggle)
+		expect(screen.getByLabelText("Column name for TODO")).toBeVisible()
 	})
 })

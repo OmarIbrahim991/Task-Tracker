@@ -4,7 +4,7 @@ import { useState } from "react"
 import { COLUMNS } from "../utils/constants"
 import { getPriorityBadgeClass } from "../utils/taskHelpers"
 
-export const TaskCard = ({ task, onEdit, onDelete, onDuplicate, onStatusChange, onDragStart, onDropTask }) => {
+export const TaskCard = ({ task, onEdit, onDelete, onDuplicate, onStatusChange, onDragStart, onDropTask, columns = COLUMNS }) => {
 	const [isDragging, setIsDragging] = useState(false)
 	const [isDragOver, setIsDragOver] = useState(false)
 
@@ -124,7 +124,7 @@ export const TaskCard = ({ task, onEdit, onDelete, onDuplicate, onStatusChange, 
 					onKeyDown={(e) => e.stopPropagation()}
 					onKeyUp={(e) => e.stopPropagation()}
 				>
-					{COLUMNS.map(({ id, title }) => (
+					{columns.map(({ id, title }) => (
 						<option key={id} value={id}>
 							{title}
 						</option>
